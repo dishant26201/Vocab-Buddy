@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">WordQuiz</string>
+    <string-array name="tests">
+        <item>SAT</item>
+        <item>GRE</item>
+        <item>GMAT</item>
+        <item>IELTS</item>
+        <item>TOEFL</item>
+        <item>TEPS</item>
+        <item>TOEIC</item>
+        <item>KSAT</item>
+        <item>Overall</item>
+    </string-array>
+</resources>

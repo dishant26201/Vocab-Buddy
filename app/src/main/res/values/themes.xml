@@ -1,0 +1,96 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.WordQuiz" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/accent</item>
+        <item name="colorSecondaryVariant">@color/accent</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <!-- main question -->
+    <style name="mainQuestion" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <!-- vocab buddy heading -->
+    <style name="vocabBuddy" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- score text -->
+    <style name="scoreText" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- how to play -->
+    <style name="howToPlay" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/marineBlue</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- input heading -->
+    <style name="inputHeading" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/lead</item>
+    </style>
+
+    <!-- test type -->
+    <style name="testType" parent="Widget.AppCompat.TextView">
+        <item name="android:textColorHint">@color/lead</item>
+    </style>
+
+    <!-- Create a  quiz heading -->
+    <style name="createQuiz" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Enter difficulty -->
+    <style name="enterDifficulty" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColorHint">@color/lightGrey</item>
+    </style>
+
+    <!-- Card view -->
+    <style name="cardView" parent="Widget.MaterialComponents.CardView">
+        <item name="android:backgroundTint">@android:color/white</item>
+    </style>
+
+    <!-- Vector icon -->
+    <style name="vectorIcon" parent="Widget.AppCompat.ImageButton">
+        <item name="android:tint">@color/lead</item>
+    </style>
+
+    <!-- Setting item -->
+    <style name="settingItem" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/lead</item>
+    </style>
+
+    <!-- No action bar theme -->
+    <style name="NoActionBarTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/twitterBlue</item>
+        <item name="colorOnPrimary">@color/white</item>
+    </style>
+
+</resources>

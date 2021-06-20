@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/settings_option_bg"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="16dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/ivDarkMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_dark_mode"
+            android:background="@null"
+            style="@style/vectorIcon"
+            android:contentDescription="Dark mode icon" />
+
+        <Switch
+            android:id="@+id/darkMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:checked="false"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <TextView
+            android:id="@+id/settings_option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_toLeftOf="@id/darkMode"
+            android:layout_toRightOf="@+id/ivDarkMode"
+            android:gravity="center_vertical"
+            android:text="Dark mode"
+            style="@style/settingItem" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/settings_option_bg"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/rl1"
+        tools:layout_editor_absoluteX="0dp">
+
+        <ImageButton
+            android:id="@+id/ivFeedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            style="@style/vectorIcon"
+            android:src="@drawable/ic_feedback"
+            android:contentDescription="Feedback icon" />
+
+
+        <TextView
+            android:id="@+id/tvFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_toRightOf="@+id/ivFeedback"
+            android:gravity="center_vertical"
+            android:text="Send feedback"
+            style="@style/settingItem" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/settings_option_bg"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/rl2"
+        tools:layout_editor_absoluteX="0dp">
+
+        <ImageButton
+            android:id="@+id/ivShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            style="@style/vectorIcon"
+            android:src="@drawable/ic_share"
+            android:contentDescription="Share icon" />
+
+        <TextView
+            android:id="@+id/tvShare"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_toRightOf="@+id/ivShare"
+            android:gravity="center_vertical"
+            android:text="Share this app"
+            style="@style/settingItem" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/settings_option_bg"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/rl3"
+        tools:layout_editor_absoluteX="0dp">
+
+        <ImageButton
+            android:id="@+id/ivRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            style="@style/vectorIcon"
+            android:src="@drawable/ic_like"
+            android:contentDescription="Rate icon" />
+
+
+        <TextView
+            android:id="@+id/tvRate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_toRightOf="@+id/ivRate"
+            android:gravity="center_vertical"
+            android:text="Rate this app"
+            style="@style/settingItem" />
+    </RelativeLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

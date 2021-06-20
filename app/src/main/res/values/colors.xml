@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="twitterBlue">#1aa3ff</color>
+    <color name="marineBlue">#004d99</color>
+    <color name="nightBlue">#000066</color>
+    <color name="grassGreen">#00e600</color>
+    <color name="lead">#666666</color>
+    <color name="lightGrey">#f2f2f2</color>
+    <color name="darkPurple">#400080</color>
+    <color name="indigo">#333399</color>
+    <color name="lavender">#6666cc</color>
+    <color name="nightBg">#1a1a1a</color>
+
+    <!-- Light theme -->
+    <color name="primary">#03A9F4</color>
+    <color name="primary_dark">#0075cb</color>
+    <color name="primary_light">#B3E5FC</color>
+    <color name="accent">#00e6e6</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#BDBDBD</color>
+
+    <!-- Dark theme -->
+    <color name="primaryColor">#4fc3f7</color>
+    <color name="primaryLightColor">#8bf6ff</color>
+    <color name="primaryDarkColor">#0093c4</color>
+    <color name="secondaryColor">#00e6e6</color>
+    <color name="secondaryLightColor">#6bffff</color>
+    <color name="secondaryDarkColor">#00b3b4</color>
+    <color name="primaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#000000</color>
+
+</resources>
