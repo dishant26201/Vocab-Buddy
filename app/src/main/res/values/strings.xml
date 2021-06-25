@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WordQuiz</string>
+    <string name="app_name">Vocab Buddy</string>
     <string-array name="tests">
         <item>SAT</item>
         <item>GRE</item>

@@ -49,8 +49,22 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.85" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.45" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.50" />
+
         <TextView
-            android:id="@+id/tvCongratulations"
+            android:id="@+id/tvInitialComment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -64,17 +78,17 @@
             app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/ivPerformanceImage"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_trophy"
+            android:src="@drawable/ic_thumbs_up"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/guideline4"
-            app:layout_constraintTop_toBottomOf="@+id/tvCongratulations" />
+            app:layout_constraintTop_toBottomOf="@+id/tvInitialComment" />
 
         <TextView
             android:id="@+id/tvFeedback"
@@ -88,7 +102,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toStartOf="@+id/guideline1"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/ivPerformanceImage" />
 
         <TextView
             android:id="@+id/tvScore"
@@ -96,7 +110,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Your Score 3 out of 3"
+            android:text="Your Score 5 out of 10"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toStartOf="@+id/guideline1"
             app:layout_constraintTop_toBottomOf="@+id/tvFeedback" />
@@ -106,15 +120,29 @@
             android:id="@+id/btnFinish"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:background="@color/grassGreen"
             android:text="FINISH"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/guideline5"
-            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintEnd_toStartOf="@+id/guideline6"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
             app:layout_constraintTop_toBottomOf="@+id/tvScore" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAgain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/grassGreen"
+            android:text="PLAY AGAIN"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/btnFinish"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline7"
+            app:layout_constraintTop_toTopOf="@+id/btnFinish" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

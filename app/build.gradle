@@ -5,6 +5,18 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        releaseMode {
+            storeFile file('/Users/dishant/Desktop/Keystore/Keystore.ks')
+            storePassword 'Johnmayer123.'
+            keyPassword 'Johnmayer123.'
+            keyAlias 'key0'
+//            storeFile file('/Users/dishant/Desktop/Keystore/test_keystore_file.jks')
+//            storePassword 'admin123'
+//            keyPassword 'admin123'
+//            keyAlias 'key1'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
@@ -12,15 +24,16 @@ android {
         applicationId "com.dishant26201.wordquiz"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "3.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.releaseMode
     }
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

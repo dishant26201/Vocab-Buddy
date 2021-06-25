@@ -12,6 +12,8 @@ object Constants {
 
     const val CORRECT_ANSWERS: String = "correct_answers"
     const val TOTAL_QUESTION: String = "total_questions"
+    const val TEST_TYPE: String = "TEST_TYPE"
+    const val DIFFICULTY: String = "DIFFICULTY"
 
     val questionsListX = ArrayList<Questions>()
 

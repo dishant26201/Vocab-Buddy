@@ -1,10 +1,12 @@
 package com.dishant26201.wordquiz
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,6 +17,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.dishant26201.quizapp.Constants
 import com.dishant26201.wordquiz.databinding.ActivityQuizQuestionsBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 private const val TAG = "QuizQuestionsActivity"
 private const val BASE_URL = "https://api.twinword.com/"
@@ -57,6 +64,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
         binding.btnCheck.setOnClickListener(this)
 
+
     }
 
     // inflate app bar with menu options
@@ -91,10 +99,74 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                 builder.setMessage("Are you sure you want to restart this quiz? You will lose all your progress.")
                     .setCancelable(false)
                     .setPositiveButton("Yes") { dialog, id ->
-                        // Clear questionsListX, call API again, and reload activity
-                        val intent = intent
-                        startActivity(intent)
-                        finish()
+
+                        Toast.makeText(
+                            this@QuizQuestionsActivity,
+                            "Loading questions. Please wait.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        item.isEnabled = false
+
+                        val difficulty = intent.getStringExtra(Constants.DIFFICULTY)!!
+                        val testType = intent.getStringExtra(Constants.TEST_TYPE)!!
+
+                        Constants.questionsListX.clear()
+
+                        val retrofit = Retrofit.Builder()
+                            .baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build()
+
+
+                        val twinwordService = retrofit.create(TwinwordService::class.java)
+                        twinwordService.getQuestions(
+                            "X-Twaip-Key: $API_KEY",
+                            difficulty,
+                            testType
+                        ).enqueue(object : Callback<QuizAndParams> {
+                            override fun onResponse(
+                                call: Call<QuizAndParams>,
+                                response: Response<QuizAndParams>
+                            ) {
+                                Log.i(TAG, "onResponse $response")
+                                Log.i(TAG, "onResponse ${response.message()}")
+                                Log.i(TAG, "onResponse ${response.raw().request().url()}")
+
+                                if (response.code() == 503) {
+                                    val dialogBuilder = android.app.AlertDialog.Builder(this@QuizQuestionsActivity)
+                                    dialogBuilder.setMessage("Sorry. Our servers are currently down. Please try again later.")
+                                    dialogBuilder.setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, whichButton -> })
+                                    val dialog = dialogBuilder.create()
+                                    dialog.show()
+                                }
+                                else {
+                                    val questions = response.body()?.quizlist
+                                    if (questions != null) {
+                                        for (question in questions) {
+                                            Constants.setQuestions(question)
+                                        }
+                                        Log.i(TAG, Constants.getQuestions().toString())
+                                        val intent = Intent(
+                                            this@QuizQuestionsActivity,
+                                            QuizQuestionsActivity::class.java
+                                        )
+                                        intent.putExtra(Constants.TEST_TYPE, testType)
+                                        intent.putExtra(Constants.DIFFICULTY, difficulty)
+                                        startActivity(intent)
+                                        finish()
+                                    }
+                                }
+                            }
+                            override fun onFailure(call: Call<QuizAndParams>, t: Throwable) {
+                                Log.i(TAG, "onFailure $t")
+                                Toast.makeText(
+                                    this@QuizQuestionsActivity,
+                                    "API not called. Check internet.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
                     }
                     .setNegativeButton("No") { dialog, id ->
                         // Dismiss the dialog
@@ -200,9 +272,13 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                                 setQuestion()
                             }
                             else -> {
+                                val difficulty = intent.getStringExtra(Constants.DIFFICULTY)!!
+                                val testType = intent.getStringExtra(Constants.TEST_TYPE)!!
                                 val intent = Intent(this, ResultActivity::class.java)
                                 intent.putExtra(Constants.CORRECT_ANSWERS, mCorrectAnswers)
                                 intent.putExtra(Constants.TOTAL_QUESTION, mQuestionsList!!.size)
+                                intent.putExtra(Constants.TEST_TYPE, testType)
+                                intent.putExtra(Constants.DIFFICULTY, difficulty)
                                 startActivity(intent)
                                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                                 finish()

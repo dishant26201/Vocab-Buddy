@@ -10,221 +10,220 @@
     tools:context=".LaunchActivity">
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
 
-            <ImageButton
-                android:id="@+id/btnSettings"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:src="@drawable/ic_settings"
-                android:background="@null"
-                app:layout_constraintBottom_toTopOf="@+id/guideline1"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintStart_toStartOf="@+id/guideline10"
-                app:layout_constraintTop_toTopOf="@+id/guideline9" />
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@null"
+            android:src="@drawable/ic_settings"
+            app:layout_constraintBottom_toTopOf="@+id/guideline1"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="@+id/guideline10"
+            app:layout_constraintTop_toTopOf="@+id/guideline9" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="VOCAB BUDDY"
-                style="@style/vocabBuddy"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintStart_toStartOf="@+id/guideline2"
-                app:layout_constraintTop_toTopOf="@+id/guideline1" />
+        <TextView
+            android:id="@+id/textView"
+            style="@style/vocabBuddy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VOCAB BUDDY"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="@+id/guideline1" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.05" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.05" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.85" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.10" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.10" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.05" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.95" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                style="@style/cardView"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="5dp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintStart_toStartOf="@+id/guideline2"
-                app:layout_constraintTop_toBottomOf="@+id/textView">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            style="@style/cardView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/createQuiz"
+                    style="@style/createQuiz"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Create A Quiz"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
-                    <TextView
-                        android:id="@+id/createQuiz"
+                <TextView
+                    android:id="@+id/selectTest"
+                    style="@style/inputHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Select a test format"
+                    app:layout_constraintStart_toStartOf="@+id/guideline4"
+                    app:layout_constraintTop_toBottomOf="@+id/createQuiz" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.05" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.95" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.05" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.95" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilMenu"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:hint="Test"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                    app:layout_constraintStart_toStartOf="@+id/guideline4"
+                    app:layout_constraintTop_toBottomOf="@+id/selectTest">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/autoCompleteTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Create A Quiz"
-                        style="@style/createQuiz"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/guideline6" />
+                        android:layout_weight="1"
+                        android:inputType="none"
+                        android:text="SAT" />
 
-                    <TextView
-                        android:id="@+id/selectTest"
-                        android:layout_width="wrap_content"
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/selectDifficulty"
+                    style="@style/inputHeading"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Enter a number between 1-10 indicating the difficulty"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                    app:layout_constraintStart_toStartOf="@+id/guideline4"
+                    app:layout_constraintTop_toBottomOf="@+id/tilMenu" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilDifficulty"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                    app:layout_constraintStart_toStartOf="@+id/guideline4"
+                    app:layout_constraintTop_toBottomOf="@+id/selectDifficulty">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/etDifficulty"
+                        style="@style/enterDifficulty"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="Select a test format"
-                        style="@style/inputHeading"
-                        app:layout_constraintStart_toStartOf="@+id/guideline4"
-                        app:layout_constraintTop_toBottomOf="@+id/createQuiz" />
+                        android:hint="Enter a number"
+                        android:imeOptions="actionGo"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        tools:layout_editor_absoluteX="49dp"
+                        tools:layout_editor_absoluteY="208dp" />
 
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/guideline4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.05" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/guideline5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.95" />
+                <Button
+                    android:id="@+id/btnStart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/grassGreen"
+                    android:padding="10dp"
+                    android:text="Start"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                    app:layout_constraintStart_toStartOf="@+id/guideline4"
+                    app:layout_constraintTop_toBottomOf="@+id/tilDifficulty" />
 
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/guideline6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:layout_constraintGuide_percent="0.05" />
+                <TextView
+                    android:id="@+id/tvInstructions"
+                    style="@style/howToPlay"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="How to play?"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline7"
+                    app:layout_constraintStart_toStartOf="@+id/guideline4"
+                    app:layout_constraintTop_toBottomOf="@+id/btnStart" />
 
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/guideline7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:layout_constraintGuide_percent="0.95" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilMenu"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:hint="Test"
-                        app:layout_constraintEnd_toStartOf="@+id/guideline5"
-                        app:layout_constraintStart_toStartOf="@+id/guideline4"
-                        app:layout_constraintTop_toBottomOf="@+id/selectTest">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/autoCompleteTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:inputType="none"
-                            android:text="SAT" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <TextView
-                        android:id="@+id/selectDifficulty"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="Enter a number between 1-10 indicating the difficulty"
-                        style="@style/inputHeading"
-                        app:layout_constraintEnd_toStartOf="@+id/guideline5"
-                        app:layout_constraintStart_toStartOf="@+id/guideline4"
-                        app:layout_constraintTop_toBottomOf="@+id/tilMenu" />
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilDifficulty"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        app:layout_constraintEnd_toStartOf="@+id/guideline5"
-                        app:layout_constraintStart_toStartOf="@+id/guideline4"
-                        app:layout_constraintTop_toBottomOf="@+id/selectDifficulty">
-
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/etDifficulty"
-                            style="@style/enterDifficulty"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Enter a number"
-                            android:imeOptions="actionGo"
-                            android:inputType="number"
-                            android:maxLength="2"
-                            tools:layout_editor_absoluteX="49dp"
-                            tools:layout_editor_absoluteY="208dp" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <Button
-                        android:id="@+id/btnStart"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:backgroundTint="@color/grassGreen"
-                        android:padding="10dp"
-                        android:text="Start"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toStartOf="@+id/guideline5"
-                        app:layout_constraintStart_toStartOf="@+id/guideline4"
-                        app:layout_constraintTop_toBottomOf="@+id/tilDifficulty" />
-
-                    <TextView
-                        android:id="@+id/tvInstructions"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="How to play?"
-                        style="@style/howToPlay"
-                        app:layout_constraintBottom_toTopOf="@+id/guideline7"
-                        app:layout_constraintStart_toStartOf="@+id/guideline4"
-                        app:layout_constraintTop_toBottomOf="@+id/btnStart" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 <!--    </androidx.fragment.app.FragmentContainerView>-->
 
 
