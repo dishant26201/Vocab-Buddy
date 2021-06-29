@@ -5,18 +5,7 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        releaseMode {
-            storeFile file('/Users/dishant/Desktop/Keystore/Keystore.ks')
-            storePassword 'Johnmayer123.'
-            keyPassword 'Johnmayer123.'
-            keyAlias 'key0'
-//            storeFile file('/Users/dishant/Desktop/Keystore/test_keystore_file.jks')
-//            storePassword 'admin123'
-//            keyPassword 'admin123'
-//            keyAlias 'key1'
-        }
-    }
+   
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
