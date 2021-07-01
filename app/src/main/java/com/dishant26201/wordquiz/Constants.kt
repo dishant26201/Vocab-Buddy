@@ -3,12 +3,16 @@ package com.dishant26201.quizapp
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatDelegate
 import com.dishant26201.wordquiz.*
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 private const val TAG = "API_CALL"
 object Constants {
 
-    private const val BASE_URL = "https://api.twinword.com/"
-    private const val API_KEY = "ejxv9wESxNQ5XFJpS0KQpfUd36rzGcQXEmWfq0QQ+OmxiZ3S8LY1wSYY4AH5EqY9UWx2KxAgRNbZ9N6SUBsNqw=="
+//    private const val BASE_URL = "https://api.twinword.com/"
+//    private const val API_KEY = "ejxv9wESxNQ5XFJpS0KQpfUd36rzGcQXEmWfq0QQ+OmxiZ3S8LY1wSYY4AH5EqY9UWx2KxAgRNbZ9N6SUBsNqw=="
+
+
 
     const val CORRECT_ANSWERS: String = "correct_answers"
     const val TOTAL_QUESTION: String = "total_questions"

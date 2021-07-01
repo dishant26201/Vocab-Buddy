@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val TAG = "LaunchActivity"
 private const val BASE_URL = "https://api.twinword.com/"
-private const val API_KEY = "demo" // this is a dummy key. The API will not work with this key
+//private const val API_KEY = "demo" // this is a dummy key. The API will not work with this key
 
 class LaunchActivity : AppCompatActivity() {
 
@@ -74,7 +74,6 @@ class LaunchActivity : AppCompatActivity() {
 
                 val twinwordService = retrofit.create(TwinwordService::class.java)
                 twinwordService.getQuestions(
-                    "X-Twaip-Key: $API_KEY",
                     binding.etDifficulty.text.toString(),
                     selectedItem.lowercase()
                 ).enqueue(object : Callback<QuizAndParams> {

@@ -5,27 +5,37 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import com.dishant26201.quizapp.Constants
+import com.dishant26201.test.DictionaryService
+import com.dishant26201.test.WordResults
 import com.dishant26201.wordquiz.databinding.ActivityQuizQuestionsBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
+
 
 private const val TAG = "QuizQuestionsActivity"
 private const val BASE_URL = "https://api.twinword.com/"
-private const val API_KEY = "demo" // this is a dummy key. The API will not work with this key
+private const val BASE_URL2 = "https://api.dictionaryapi.dev/api/v2/"
 
 class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -59,9 +69,11 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
         setQuestion()
 
+        binding.tvQuestion1.setOnClickListener(this)
+        binding.tvQuestion2.setOnClickListener(this)
+        binding.tvQuestion3.setOnClickListener(this)
         binding.tvOp1.setOnClickListener(this)
         binding.tvOp2.setOnClickListener(this)
-
         binding.btnCheck.setOnClickListener(this)
 
 
@@ -121,7 +133,6 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
                         val twinwordService = retrofit.create(TwinwordService::class.java)
                         twinwordService.getQuestions(
-                            "X-Twaip-Key: $API_KEY",
                             difficulty,
                             testType
                         ).enqueue(object : Callback<QuizAndParams> {
@@ -179,84 +190,44 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         return super.onOptionsItemSelected(item)
     }
 
-
-    private fun setQuestion(){
-        val question = mQuestionsList!![mCurrentPosition - 1]
-
-        defaultOptionLook()
-
-        if (mCurrentPosition == mQuestionsList!!.size + 1) {
-            binding.btnCheck.text = "FINISH"
-        } else {
-            binding.btnCheck.text = "SUBMIT"
-        }
-
-        binding.progressBar.progress = mCurrentPosition
-        binding.tvProgress.text = "$mCurrentPosition/${binding.progressBar.max}"
-
-
-        binding.tvQuestion1.text = question.quiz[0].uppercase()
-        binding.tvQuestion2.text = question.quiz[1].uppercase()
-        binding.tvQuestion3.text = question.quiz[2].uppercase()
-
-        binding.tvOp1.text = question.option[0].uppercase()
-        binding.tvOp2.text = question.option[1].uppercase()
-
-
-        submitted = false
-        opSelected = false
-    }
-
-
-    // default look of an answer option
-    private fun defaultOptionLook() {
-        val options = ArrayList<TextView>()
-        options.add(0, binding.tvOp1)
-        options.add(1, binding.tvOp2)
-
-        for (option in options) {
-            option.setTextColor(Color.parseColor("#666666"))
-            option.typeface = Typeface.DEFAULT
-            option.background = ContextCompat.getDrawable(this, R.drawable.default_option_bg)
-        }
-    }
-
-    // look of an answer option when clicked/selected
-    private fun selectedOptionLook(tv: TextView, selectedOptionNumber: Int) {
-
-        defaultOptionLook()
-        mSelectedOptionPosition = selectedOptionNumber
-
-        tv.setTextColor(Color.parseColor("#363A43"))
-        tv.setTypeface(tv.typeface, Typeface.BOLD)
-        tv.background = ContextCompat.getDrawable(this, R.drawable.selected_option_border)
-
-    }
-
-    private fun answerLook(answer: Int, drawableView: Int) {
-        when (answer) {
-            1 -> {
-                binding.tvOp1.background = ContextCompat.getDrawable(this, drawableView)
-            }
-            2 -> {
-                binding.tvOp2.background = ContextCompat.getDrawable(this, drawableView)
-            }
-        }
-    }
-
-
     override fun onClick(v: View?) {
         when (v?.id) {
+            R.id.tvQuestion1 -> {
+                if (submitted) {
+                    val word = binding.tvQuestion1.text.toString()
+                    findMeaning(word)
+                }
+            }
+            R.id.tvQuestion2 -> {
+                if (submitted) {
+                    val word = binding.tvQuestion2.text.toString()
+                    findMeaning(word)
+                }
+            }
+            R.id.tvQuestion3 -> {
+                if (submitted) {
+                    val word = binding.tvQuestion3.text.toString()
+                    findMeaning(word)
+                }
+            }
             R.id.tvOp1 -> {
-                if (submitted == false) {
+                if (!submitted) {
                     selectedOptionLook(binding.tvOp1, 1)
                     opSelected = true
                 }
+                else {
+                    val word = binding.tvOp1.text.toString()
+                    findMeaning(word)
+                }
             }
             R.id.tvOp2 -> {
-                if (submitted == false) {
+                if (!submitted) {
                     selectedOptionLook(binding.tvOp2, 2)
                     opSelected = true
+                }
+                else {
+                    val word = binding.tvOp2.text.toString()
+                    findMeaning(word)
                 }
             }
             R.id.btnCheck -> {
@@ -310,5 +281,181 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
+    }
+
+    private fun setQuestion(){
+        val question = mQuestionsList!![mCurrentPosition - 1]
+
+        binding.tvTap.setTextColor(AppCompatResources.getColorStateList(this, R.color.disableGrey))
+        binding.tvTap.setTypeface(null, Typeface.BOLD)
+        binding.ivLockUnlock.setImageResource(R.drawable.ic_lock)
+
+        defaultOptionLook()
+
+        if (mCurrentPosition == mQuestionsList!!.size + 1) {
+            binding.btnCheck.text = "FINISH"
+        } else {
+            binding.btnCheck.text = "SUBMIT"
+        }
+
+        binding.progressBar.progress = mCurrentPosition
+        binding.tvProgress.text = "$mCurrentPosition/${binding.progressBar.max}"
+
+
+        binding.tvQuestion1.text = question.quiz[0].uppercase()
+        binding.tvQuestion2.text = question.quiz[1].uppercase()
+        binding.tvQuestion3.text = question.quiz[2].uppercase()
+
+        binding.tvOp1.text = question.option[0].uppercase()
+        binding.tvOp2.text = question.option[1].uppercase()
+
+
+        submitted = false
+        opSelected = false
+    }
+
+
+    // default look of an answer option
+    private fun defaultOptionLook() {
+        val options = ArrayList<TextView>()
+        options.add(0, binding.tvOp1)
+        options.add(1, binding.tvOp2)
+
+        for (option in options) {
+            option.setTextColor(Color.parseColor("#666666"))
+            option.typeface = Typeface.DEFAULT
+            option.background = ContextCompat.getDrawable(this, R.drawable.default_option_bg)
+        }
+    }
+
+    // look of an answer option when clicked/selected
+    private fun selectedOptionLook(tv: TextView, selectedOptionNumber: Int) {
+
+        defaultOptionLook()
+        mSelectedOptionPosition = selectedOptionNumber
+
+        tv.setTextColor(Color.parseColor("#363A43"))
+        tv.setTypeface(tv.typeface, Typeface.BOLD)
+        tv.background = ContextCompat.getDrawable(this, R.drawable.selected_option_border)
+
+    }
+
+    private fun answerLook(answer: Int, drawableView: Int) {
+        binding.tvTap.setTextColor(AppCompatResources.getColorStateList(this, R.color.darkGrassGreen))
+        binding.tvTap.setTypeface(null, Typeface.BOLD)
+        binding.ivLockUnlock.setImageResource(R.drawable.ic_unlock)
+
+        when (answer) {
+            1 -> {
+                binding.tvOp1.background = ContextCompat.getDrawable(this, drawableView)
+            }
+            2 -> {
+                binding.tvOp2.background = ContextCompat.getDrawable(this, drawableView)
+            }
+        }
+    }
+
+    private fun findMeaning(word: String) {
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL2)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val dictionaryService = retrofit.create(DictionaryService::class.java)
+
+        val popUpView : View? = layoutInflater.inflate(R.layout.custom_popup, null, false)
+        popUpView!!.findViewById<TextView>(R.id.tvWord).text = word.toString()
+            .lowercase().replaceFirstChar { it.uppercase() }
+
+        dictionaryService.getMeaning(word).enqueue(object : Callback<List<WordResults>> {
+//            @RequiresApi(Build.VERSION_CODES.Q)
+            override fun onResponse(
+                call: Call<List<WordResults>>,
+                response: Response<List<WordResults>>
+            ) {
+
+                Log.i(TAG, "onResponse $response")
+
+                if (response.code() == 200){
+                    val meanings = response.body()!![0].meanings
+                    val audioUrl = response.body()!![0].phonetics[0].audio
+
+
+                    for (meaning in meanings) {
+
+                        val meaningView : View = layoutInflater.inflate(R.layout.meaning_layout, null, false)
+
+                        meaningView.findViewById<TextView>(R.id.tvMeaningHeading).text = meaning.partOfSpeech
+                        meaningView.findViewById<TextView>(R.id.tvMeaning).text = meaning.definitions[0].definition
+
+                        popUpView.findViewById<LinearLayout>(R.id.llMeaningHolder).addView(meaningView)
+
+                        Log.i(TAG, "${meaningView.findViewById<TextView>(R.id.tvMeaningHeading).text}" )
+                        Log.i(TAG, "${meaningView.findViewById<TextView>(R.id.tvMeaning).text}" )
+
+                    }
+                    createPopUp(popUpView, audioUrl)
+                }
+                else {
+                    val audioUrl = null
+                    val noMeaningView : View = layoutInflater.inflate(R.layout.no_meaning, null, false)
+
+                    popUpView.findViewById<LinearLayout>(R.id.llMeaningHolder).addView(noMeaningView)
+
+                    createPopUp(popUpView, audioUrl)
+
+                    Toast.makeText(this@QuizQuestionsActivity, "Could not find meaning", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+
+            override fun onFailure(call: Call<List<WordResults>>, t: Throwable) {
+
+                val audioUrl = null
+
+                val noMeaningView : View = layoutInflater.inflate(R.layout.no_meaning, null, false)
+
+                popUpView.findViewById<LinearLayout>(R.id.llMeaningHolder).addView(noMeaningView)
+
+                createPopUp(popUpView, audioUrl)
+
+                Toast.makeText(this@QuizQuestionsActivity, "Could not find meaning", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+    private fun createPopUp(popUpView : View?, audioUrl : String?) {
+        val dialog = android.app.AlertDialog.Builder(this)
+            .setView(popUpView)
+            .create()
+        popUpView!!.findViewById<ImageButton>(R.id.btnClose)?.setOnClickListener {
+            dialog.dismiss()
+        }
+        popUpView!!.findViewById<ImageButton>(R.id.btnAudio)?.setOnClickListener {
+
+            val mediaPlayer = MediaPlayer()
+
+//            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
+            mediaPlayer.setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build()
+            )
+
+            try {
+                mediaPlayer.setDataSource(audioUrl)
+                // below line is use to prepare
+                // and start our media player.
+                mediaPlayer.prepare()
+                mediaPlayer.start()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            // below line is use to display a toast message.
+            // below line is use to display a toast message.
+            Toast.makeText(this, "Audio started playing..", Toast.LENGTH_SHORT).show()
+        }
+        dialog.show()
     }
 }

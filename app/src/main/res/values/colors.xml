@@ -11,8 +11,11 @@
     <color name="marineBlue">#004d99</color>
     <color name="nightBlue">#000066</color>
     <color name="grassGreen">#00e600</color>
+    <color name="darkGrassGreen">#009900</color>
     <color name="lead">#666666</color>
     <color name="lightGrey">#f2f2f2</color>
+    <color name="disableGrey">#d9d9d9</color>
+    <color name="darkGrey">#b3b3b3</color>
     <color name="darkPurple">#400080</color>
     <color name="indigo">#333399</color>
     <color name="lavender">#6666cc</color>

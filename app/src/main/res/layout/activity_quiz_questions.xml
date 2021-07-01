@@ -68,6 +68,37 @@
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toTopOf="@+id/guideline1" />
 
+
+        <LinearLayout
+            android:id="@+id/llTap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/tvMainQuestion">
+
+            <TextView
+                android:id="@+id/tvTap"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Tap on word to know what it means"
+                android:gravity="center"
+                android:textColor="@color/disableGrey"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/ivLockUnlock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:src="@drawable/ic_lock"
+                android:contentDescription="Lock || Unlock" />
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tvQuestion1"
             android:layout_width="wrap_content"
@@ -82,7 +113,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/tvQuestion3"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/tvMainQuestion" />
+            app:layout_constraintTop_toBottomOf="@+id/llTap" />
 
         <TextView
             android:id="@+id/tvQuestion2"
@@ -114,7 +145,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintStart_toEndOf="@+id/tvQuestion1"
-            app:layout_constraintTop_toBottomOf="@+id/tvMainQuestion" />
+            app:layout_constraintTop_toBottomOf="@+id/llTap" />
 
         <LinearLayout
             android:id="@+id/llProgress"
