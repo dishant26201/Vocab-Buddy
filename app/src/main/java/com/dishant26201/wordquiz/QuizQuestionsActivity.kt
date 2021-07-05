@@ -55,6 +55,9 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
     private var darkMode : Boolean = false
 
+    private lateinit var restart : MenuItem
+    private lateinit var exit : MenuItem
+
     private lateinit var binding: ActivityQuizQuestionsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,6 +96,8 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     // inflate app bar with menu options
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.nav_menu, menu)
+        restart = menu!!.findItem(R.id.ic_restart)
+        exit = menu!!.findItem(R.id.ic_exit)
         return true
     }
 
@@ -206,6 +211,10 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             R.id.tvQuestion1 -> {
                 if (submitted) {
 
+                    exit.isEnabled = false
+                    restart.isEnabled = false
+
+
                     binding.tvQuestion1.isClickable = false
                     binding.tvQuestion2.isClickable = false
                     binding.tvQuestion3.isClickable = false
@@ -222,6 +231,10 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.tvQuestion2 -> {
                 if (submitted) {
+
+                    exit.isEnabled = false
+                    restart.isEnabled = false
+
                     binding.tvQuestion1.isClickable = false
                     binding.tvQuestion2.isClickable = false
                     binding.tvQuestion3.isClickable = false
@@ -238,6 +251,10 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.tvQuestion3 -> {
                 if (submitted) {
+
+                    exit.isEnabled = false
+                    restart.isEnabled = false
+
                     binding.tvQuestion1.isClickable = false
                     binding.tvQuestion2.isClickable = false
                     binding.tvQuestion3.isClickable = false
@@ -258,6 +275,8 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                     opSelected = true
                 }
                 else {
+                    exit.isEnabled = false
+                    restart.isEnabled = false
                     binding.tvQuestion1.isClickable = false
                     binding.tvQuestion2.isClickable = false
                     binding.tvQuestion3.isClickable = false
@@ -275,6 +294,8 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                     opSelected = true
                 }
                 else {
+                    exit.isEnabled = false
+                    restart.isEnabled = false
                     binding.tvQuestion1.isClickable = false
                     binding.tvQuestion2.isClickable = false
                     binding.tvQuestion3.isClickable = false
@@ -542,7 +563,6 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             popUpView.findViewById<ImageButton>(R.id.btnAudio)?.isClickable = false
             popUpView.findViewById<ImageButton>(R.id.btnAudio)?.isEnabled = false
         }
-
         dialog.show()
         binding.tvQuestion1.isClickable = true
         binding.tvQuestion2.isClickable = true
@@ -550,5 +570,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         binding.tvOp1.isClickable = true
         binding.tvOp2.isClickable = true
         binding.btnCheck.isClickable = true
+        exit.isEnabled = true
+        restart.isEnabled = true
     }
 }
