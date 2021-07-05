@@ -13,6 +13,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+<!--        <item name="android:typeface">sans</item>-->
     </style>
 
     <!-- main question -->
@@ -75,6 +76,12 @@
         <item name="android:backgroundTint">@color/nightBg</item>
     </style>
 
+    <!-- Meaning enable text -->
+    <style name="meaningEnableText" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/disableGreyNight</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <!-- Vector icon -->
     <style name="vectorIcon" parent="Widget.AppCompat.ImageButton">
@@ -87,6 +94,42 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <!-- Word meaning -->
+    <style name="wordMeaningMain" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Image button close -->
+    <style name="closeButton" parent="Widget.AppCompat.ImageButton">
+        <item name="srcCompat">@drawable/ic_close_night</item>
+    </style>
+
+    <!-- part of speech  -->
+    <style name="partOfSpeech" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- part of speech meaning -->
+    <style name="partOfSpeechMeaning" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/disableGrey</item>
+    </style>
+
+    <!-- row heading -->
+    <style name="rowHeading" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- entry row -->
+    <style name="entryRow" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">start</item>
+    </style>
 
     <!-- No action bar theme. -->
     <style name="NoActionBarTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -94,6 +137,7 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
         <item name="colorOnPrimary">@color/lead</item>
+<!--        <item name="android:typeface">sans</item>-->
     </style>
 
 </resources>

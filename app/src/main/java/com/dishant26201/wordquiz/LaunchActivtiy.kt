@@ -23,12 +23,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val TAG = "LaunchActivity"
 private const val BASE_URL = "https://api.twinword.com/"
-//private const val API_KEY = "demo" // this is a dummy key. The API will not work with this key
+private const val API_KEY = "demo" // this is a dummy key. The API will not work with this key
 
 class LaunchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLaunchBinding
     var selectedItem = "sat"
+    var difficulty = "3"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,87 +50,98 @@ class LaunchActivity : AppCompatActivity() {
             showDialog()
         }
 
-        binding.autoCompleteTextView.onItemClickListener = AdapterView.OnItemClickListener {
-                parent, view, position, id ->
-                 selectedItem = parent.getItemAtPosition(position).toString()
+        binding.autoCompleteTextView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            selectedItem = parent.getItemAtPosition(position).toString()
+        }
+
+        binding.autoCompleteTextView3.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            difficulty = parent.getItemAtPosition(position).toString()
+        }
+
+        binding.btnScore.setOnClickListener {
+            val intent = Intent(this@LaunchActivity, ScoreCardActivity::class.java)
+            intent.putExtra(Constants.TEST_TYPE, "Overall")
+            startActivity(intent)
+            overridePendingTransition(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
         }
 
 
         binding.btnStart.setOnClickListener {
-            if (binding.etDifficulty.text.toString().isEmpty()){
-                Toast.makeText(this, "Please select a difficulty level before proceeding", Toast.LENGTH_SHORT).show()
-            }
-            else if (binding.etDifficulty.text.toString().toInt() <= 0 || binding.etDifficulty.text.toString().toInt() > 10) {
-                Toast.makeText(this, "Please enter a number between 1 and 10", Toast.LENGTH_SHORT).show()
-            }
-            else {
-                Toast.makeText(
-                    this@LaunchActivity,
-                    "Loading questions. Please wait.",
-                    Toast.LENGTH_SHORT
-                ).show()
+            Toast.makeText(
+                this@LaunchActivity,
+                "Loading questions. Please wait.",
+                Toast.LENGTH_SHORT
+            ).show()
 
-                binding.btnStart.isEnabled = false
-                binding.btnStart.isClickable = false
+            binding.btnStart.isEnabled = false
+            binding.btnStart.isClickable = false
 
-                val twinwordService = retrofit.create(TwinwordService::class.java)
-                twinwordService.getQuestions(
-                    binding.etDifficulty.text.toString(),
-                    selectedItem.lowercase()
-                ).enqueue(object : Callback<QuizAndParams> {
-                    override fun onResponse(
-                        call: Call<QuizAndParams>,
-                        response: Response<QuizAndParams>
-                    ) {
-                        Log.i(TAG, "onResponse $response")
-                        Log.i(TAG, "onResponse ${response.message()}")
-                        Log.i(TAG, "onResponse ${response.raw().request().url()}")
+            val twinwordService = retrofit.create(TwinwordService::class.java)
+            twinwordService.getQuestions(
+                difficulty.toString(),
+                selectedItem.lowercase()
+            ).enqueue(object : Callback<QuizAndParams> {
+                override fun onResponse(
+                    call: Call<QuizAndParams>,
+                    response: Response<QuizAndParams>
+                ) {
+                    Log.i(TAG, "onResponse $response")
+                    Log.i(TAG, "onResponse ${response.message()}")
+                    Log.i(TAG, "onResponse ${response.raw().request().url()}")
 
-                        if (response.code() == 503) {
-                            val dialogBuilder = AlertDialog.Builder(this@LaunchActivity)
-                            dialogBuilder.setMessage("Sorry. Our servers are currently down. Please try again later.")
-                            dialogBuilder.setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, whichButton -> })
-                            val dialog = dialogBuilder.create()
-                            dialog.show()
-                        }
-                        else {
-                            val questions = response.body()?.quizlist
-                            if (questions != null) {
-                                for (question in questions) {
-                                    Constants.setQuestions(question)
-                                }
-                                Log.i(TAG, Constants.getQuestions().toString())
-                                val intent =
-                                    Intent(this@LaunchActivity, QuizQuestionsActivity::class.java)
-                                intent.putExtra(Constants.TEST_TYPE, selectedItem.lowercase())
-                                intent.putExtra(
-                                    Constants.DIFFICULTY,
-                                    binding.etDifficulty.text.toString()
-                                )
-                                startActivity(intent)
-                                finish()
-                                overridePendingTransition(
-                                    R.anim.slide_in_right,
-                                    R.anim.slide_out_left
-                                )
+                    if (response.code() == 503) {
+                        val dialogBuilder = AlertDialog.Builder(this@LaunchActivity)
+                        dialogBuilder.setMessage("Sorry. Our servers are currently down. Please try again later.")
+                        dialogBuilder.setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, whichButton -> })
+                        val dialog = dialogBuilder.create()
+                        dialog.show()
+                    }
+                    else {
+                        val questions = response.body()?.quizlist
+                        if (questions != null) {
+                            for (question in questions) {
+                                Constants.setQuestions(question)
                             }
+                            Log.i(TAG, Constants.getQuestions().toString())
+                            val intent =
+                                Intent(this@LaunchActivity, QuizQuestionsActivity::class.java)
+                            intent.putExtra(Constants.TEST_TYPE, selectedItem.lowercase())
+                            intent.putExtra(
+                                Constants.DIFFICULTY,
+                                difficulty.toString()
+                            )
+                            startActivity(intent)
+                            finish()
+                            overridePendingTransition(
+                                R.anim.slide_in_right,
+                                R.anim.slide_out_left
+                            )
                         }
                     }
-                    override fun onFailure(call: Call<QuizAndParams>, t: Throwable) {
-                        Log.i(TAG, "onFailure $t")
-                        Toast.makeText(
-                            this@LaunchActivity,
-                            "Check internet and restart app",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                })
-            }
+                }
+                override fun onFailure(call: Call<QuizAndParams>, t: Throwable) {
+                    Log.i(TAG, "onFailure $t")
+                    Toast.makeText(
+                        this@LaunchActivity,
+                        "No internet available. Check your connection.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    binding.btnStart.isEnabled = true
+                    binding.btnStart.isClickable = true
+                }
+            })
         }
 
         binding.btnSettings.setOnClickListener {
             val intent = Intent(this@LaunchActivity, SettingsActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
         }
     }
 
@@ -138,12 +150,16 @@ class LaunchActivity : AppCompatActivity() {
         val tests = resources.getStringArray(R.array.tests)
         val arrayAdapter = ArrayAdapter(this , R.layout.dropdown_item, tests)
         binding.autoCompleteTextView.setAdapter(arrayAdapter)
+
+        val difficultyLevel = resources.getStringArray(R.array.difficulty)
+        val arrayAdapter2 = ArrayAdapter(this , R.layout.dropdown_item, difficultyLevel)
+        binding.autoCompleteTextView3.setAdapter(arrayAdapter2)
     }
 
     fun showDialog() {
         val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder.setMessage("Select the exam you want to prepare for and the difficulty level of the questions that you wish to attempt. " +
-                "There are over 19000 words across 8 different test types and 10 dfficulty levels, so you can rest assured that you will never run out of questions to practice!")
+        dialogBuilder.setMessage("Select the exam you want to prepare for and the difficulty level of the questions that you wish to attempt. Tap on the buttons in the top right corner to manage settings and view your scorecard. " +
+                "There are over 19000 words across 8 different test types and 10 difficulty levels, so you can rest assured that you will never run out of questions to practice!")
         dialogBuilder.setPositiveButton("Got It!", DialogInterface.OnClickListener { dialog, whichButton -> })
         val dialog = dialogBuilder.create()
         dialog.show()

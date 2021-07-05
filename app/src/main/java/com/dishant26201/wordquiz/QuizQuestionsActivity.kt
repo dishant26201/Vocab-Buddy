@@ -5,8 +5,9 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.Icon
+import android.graphics.drawable.VectorDrawable
 import android.media.AudioAttributes
-import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
@@ -21,9 +22,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuItemCompat
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.dishant26201.quizapp.Constants
 import com.dishant26201.test.DictionaryService
 import com.dishant26201.test.WordResults
+import com.dishant26201.wordquiz.R.color.disableGrey
+import com.dishant26201.wordquiz.R.color.disableGreyNight
 import com.dishant26201.wordquiz.databinding.ActivityQuizQuestionsBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,6 +36,8 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 private const val TAG = "QuizQuestionsActivity"
@@ -46,6 +53,8 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private var submitted = false
     private var opSelected = false
 
+    private var darkMode : Boolean = false
+
     private lateinit var binding: ActivityQuizQuestionsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,9 +68,11 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_YES -> {
                 supportActionBar?.setBackgroundDrawable(getDrawable(R.color.primaryColor))
+                darkMode = true
             }
             Configuration.UI_MODE_NIGHT_NO -> {
                 supportActionBar?.setBackgroundDrawable(getDrawable(R.color.primary))
+                darkMode = false
             }
         }
 
@@ -194,20 +205,51 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         when (v?.id) {
             R.id.tvQuestion1 -> {
                 if (submitted) {
+
+                    binding.tvQuestion1.isClickable = false
+                    binding.tvQuestion2.isClickable = false
+                    binding.tvQuestion3.isClickable = false
+                    binding.tvOp1.isClickable = false
+                    binding.tvOp2.isClickable = false
+                    binding.btnCheck.isClickable = false
+
                     val word = binding.tvQuestion1.text.toString()
                     findMeaning(word)
+                }
+                else {
+                    Toast.makeText(this, "Answer the question to view the meaning of this word", Toast.LENGTH_SHORT).show()
                 }
             }
             R.id.tvQuestion2 -> {
                 if (submitted) {
+                    binding.tvQuestion1.isClickable = false
+                    binding.tvQuestion2.isClickable = false
+                    binding.tvQuestion3.isClickable = false
+                    binding.tvOp1.isClickable = false
+                    binding.tvOp2.isClickable = false
+                    binding.btnCheck.isClickable = false
+
                     val word = binding.tvQuestion2.text.toString()
                     findMeaning(word)
+                }
+                else {
+                    Toast.makeText(this, "Answer the question to view the meaning of this word", Toast.LENGTH_SHORT).show()
                 }
             }
             R.id.tvQuestion3 -> {
                 if (submitted) {
+                    binding.tvQuestion1.isClickable = false
+                    binding.tvQuestion2.isClickable = false
+                    binding.tvQuestion3.isClickable = false
+                    binding.tvOp1.isClickable = false
+                    binding.tvOp2.isClickable = false
+                    binding.btnCheck.isClickable = false
+
                     val word = binding.tvQuestion3.text.toString()
                     findMeaning(word)
+                }
+                else {
+                    Toast.makeText(this, "Answer the question to view the meaning of this word", Toast.LENGTH_SHORT).show()
                 }
             }
             R.id.tvOp1 -> {
@@ -216,6 +258,13 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                     opSelected = true
                 }
                 else {
+                    binding.tvQuestion1.isClickable = false
+                    binding.tvQuestion2.isClickable = false
+                    binding.tvQuestion3.isClickable = false
+                    binding.tvOp1.isClickable = false
+                    binding.tvOp2.isClickable = false
+                    binding.btnCheck.isClickable = false
+
                     val word = binding.tvOp1.text.toString()
                     findMeaning(word)
                 }
@@ -226,6 +275,13 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                     opSelected = true
                 }
                 else {
+                    binding.tvQuestion1.isClickable = false
+                    binding.tvQuestion2.isClickable = false
+                    binding.tvQuestion3.isClickable = false
+                    binding.tvOp1.isClickable = false
+                    binding.tvOp2.isClickable = false
+                    binding.btnCheck.isClickable = false
+
                     val word = binding.tvOp2.text.toString()
                     findMeaning(word)
                 }
@@ -251,8 +307,8 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                                 intent.putExtra(Constants.TEST_TYPE, testType)
                                 intent.putExtra(Constants.DIFFICULTY, difficulty)
                                 startActivity(intent)
-                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                                 finish()
+                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                             }
                         }
                     } else if (mSelectedOptionPosition != 0) {
@@ -286,9 +342,15 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private fun setQuestion(){
         val question = mQuestionsList!![mCurrentPosition - 1]
 
-        binding.tvTap.setTextColor(AppCompatResources.getColorStateList(this, R.color.disableGrey))
         binding.tvTap.setTypeface(null, Typeface.BOLD)
-        binding.ivLockUnlock.setImageResource(R.drawable.ic_lock)
+
+        if (darkMode) {
+            binding.ivLockUnlock.setImageResource(R.drawable.ic_bulb_disable_night)
+            binding.tvTap.setTextColor(ContextCompat.getColor(this, disableGreyNight))
+        } else {
+            binding.ivLockUnlock.setImageResource(R.drawable.ic_bulb_disable)
+            binding.tvTap.setTextColor(ContextCompat.getColor(this, disableGrey))
+        }
 
         defaultOptionLook()
 
@@ -343,7 +405,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private fun answerLook(answer: Int, drawableView: Int) {
         binding.tvTap.setTextColor(AppCompatResources.getColorStateList(this, R.color.darkGrassGreen))
         binding.tvTap.setTypeface(null, Typeface.BOLD)
-        binding.ivLockUnlock.setImageResource(R.drawable.ic_unlock)
+        binding.ivLockUnlock.setImageResource(R.drawable.ic_bulb)
 
         when (answer) {
             1 -> {
@@ -364,6 +426,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
         val dictionaryService = retrofit.create(DictionaryService::class.java)
 
+
         val popUpView : View? = layoutInflater.inflate(R.layout.custom_popup, null, false)
         popUpView!!.findViewById<TextView>(R.id.tvWord).text = word.toString()
             .lowercase().replaceFirstChar { it.uppercase() }
@@ -377,19 +440,35 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
                 Log.i(TAG, "onResponse $response")
 
-                if (response.code() == 200){
+                if (response.code() == 200 && !(response.body()!![0].meanings.isNullOrEmpty())){
                     val meanings = response.body()!![0].meanings
                     val audioUrl = response.body()!![0].phonetics[0].audio
 
 
                     for (meaning in meanings) {
 
-                        val meaningView : View = layoutInflater.inflate(R.layout.meaning_layout, null, false)
+                        val meaningView : View
 
-                        meaningView.findViewById<TextView>(R.id.tvMeaningHeading).text = meaning.partOfSpeech
-                        meaningView.findViewById<TextView>(R.id.tvMeaning).text = meaning.definitions[0].definition
+                        if (!meaning.definitions[0].synonyms.isNullOrEmpty()) {
+                            meaningView = layoutInflater.inflate(R.layout.meaning_layout_synonym, null, false)
+                            meaningView.findViewById<TextView>(R.id.tvMeaningHeading).text = meaning.partOfSpeech
+                            meaningView.findViewById<TextView>(R.id.tvMeaningHeading).setTypeface(null, Typeface.BOLD_ITALIC)
+                            meaningView.findViewById<TextView>(R.id.tvMeaning).text = meaning.definitions[0].definition
+                            val separator = ",  "
+                            val textSimilarWords = meaning.definitions[0].synonyms!!.joinToString(separator)
+                            meaningView.findViewById<TextView>(R.id.tvSynonyms).text = textSimilarWords.toString()
+                            popUpView.findViewById<LinearLayout>(R.id.llMeaningHolder).addView(meaningView)
+                        }
+                        else {
+                            meaningView = layoutInflater.inflate(R.layout.meaning_layout, null, false)
 
-                        popUpView.findViewById<LinearLayout>(R.id.llMeaningHolder).addView(meaningView)
+                            meaningView.findViewById<TextView>(R.id.tvMeaningHeading).text = meaning.partOfSpeech
+                            meaningView.findViewById<TextView>(R.id.tvMeaningHeading).setTypeface(null, Typeface.BOLD_ITALIC)
+                            meaningView.findViewById<TextView>(R.id.tvMeaning).text = meaning.definitions[0].definition
+
+                            popUpView.findViewById<LinearLayout>(R.id.llMeaningHolder).addView(meaningView)
+                        }
+
 
                         Log.i(TAG, "${meaningView.findViewById<TextView>(R.id.tvMeaningHeading).text}" )
                         Log.i(TAG, "${meaningView.findViewById<TextView>(R.id.tvMeaning).text}" )
@@ -425,6 +504,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
         })
     }
+
     private fun createPopUp(popUpView : View?, audioUrl : String?) {
         val dialog = android.app.AlertDialog.Builder(this)
             .setView(popUpView)
@@ -432,30 +512,43 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         popUpView!!.findViewById<ImageButton>(R.id.btnClose)?.setOnClickListener {
             dialog.dismiss()
         }
-        popUpView!!.findViewById<ImageButton>(R.id.btnAudio)?.setOnClickListener {
 
-            val mediaPlayer = MediaPlayer()
+        if (audioUrl != null) {
+            popUpView.findViewById<ImageButton>(R.id.btnAudio)?.setOnClickListener {
+                Toast.makeText(this, "Fetching audio...", Toast.LENGTH_SHORT).show()
 
-//            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
-            mediaPlayer.setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .build()
-            )
+                val mediaPlayer = MediaPlayer()
 
-            try {
-                mediaPlayer.setDataSource(audioUrl)
-                // below line is use to prepare
-                // and start our media player.
-                mediaPlayer.prepare()
-                mediaPlayer.start()
-            } catch (e: IOException) {
-                e.printStackTrace()
+                mediaPlayer.setAudioAttributes(
+                    AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .build()
+                )
+
+                try {
+                    mediaPlayer.setDataSource(audioUrl)
+                    // below line is use to prepare
+                    // and start our media player.
+                    mediaPlayer.prepare()
+                    mediaPlayer.start()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                // below line is use to display a toast message.
+                // below line is use to display a toast message.
             }
-            // below line is use to display a toast message.
-            // below line is use to display a toast message.
-            Toast.makeText(this, "Audio started playing..", Toast.LENGTH_SHORT).show()
         }
+        else {
+            popUpView.findViewById<ImageButton>(R.id.btnAudio)?.isClickable = false
+            popUpView.findViewById<ImageButton>(R.id.btnAudio)?.isEnabled = false
+        }
+
         dialog.show()
+        binding.tvQuestion1.isClickable = true
+        binding.tvQuestion2.isClickable = true
+        binding.tvQuestion3.isClickable = true
+        binding.tvOp1.isClickable = true
+        binding.tvOp2.isClickable = true
+        binding.btnCheck.isClickable = true
     }
 }

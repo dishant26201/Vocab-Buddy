@@ -13,6 +13,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+<!--        <item name="android:typeface">sans</item>-->
     </style>
 
     <!-- main question -->
@@ -27,6 +28,13 @@
     <style name="vocabBuddy" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">26sp</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Scorecard heading -->
+    <style name="scoreCard" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@color/twitterBlue</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -74,6 +82,23 @@
         <item name="android:backgroundTint">@android:color/white</item>
     </style>
 
+    <!-- Card view -->
+    <style name="cardViewScore" parent="Widget.MaterialComponents.CardView">
+        <item name="android:backgroundTint">@android:color/white</item>
+    </style>
+
+    <!-- Card view -->
+    <style name="scoreLabel" parent="Widget.MaterialComponents.CardView">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Meaning enable text -->
+    <style name="meaningEnableText" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/disableGrey</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <!-- Vector icon -->
     <style name="vectorIcon" parent="Widget.AppCompat.ImageButton">
         <item name="android:tint">@color/lead</item>
@@ -85,12 +110,51 @@
         <item name="android:textColor">@color/lead</item>
     </style>
 
+    <!-- Word meaning -->
+    <style name="wordMeaningMain" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Image button close -->
+    <style name="closeButton" parent="Widget.AppCompat.ImageButton">
+        <item name="srcCompat">@drawable/ic_close</item>
+    </style>
+
+    <!-- part of speech  -->
+    <style name="partOfSpeech" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- part of speech meaning -->
+    <style name="partOfSpeechMeaning" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/darkGrey</item>
+    </style>
+
+    <!-- row heading -->
+    <style name="rowHeading" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- entry row -->
+    <style name="entryRow" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">start</item>
+    </style>
+
+
     <!-- No action bar theme -->
     <style name="NoActionBarTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/twitterBlue</item>
         <item name="colorOnPrimary">@color/white</item>
+<!--        <item name="android:typeface">sans</item>-->
     </style>
 
 </resources>

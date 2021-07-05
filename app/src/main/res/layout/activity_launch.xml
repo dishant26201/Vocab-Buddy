@@ -27,11 +27,23 @@
             app:layout_constraintStart_toStartOf="@+id/guideline10"
             app:layout_constraintTop_toTopOf="@+id/guideline9" />
 
+        <ImageButton
+            android:id="@+id/btnScore"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@null"
+            android:src="@drawable/ic_score"
+            app:layout_constraintBottom_toTopOf="@+id/guideline1"
+            app:layout_constraintEnd_toStartOf="@+id/guideline10"
+            app:layout_constraintStart_toStartOf="@+id/guideline11"
+            app:layout_constraintTop_toTopOf="@+id/guideline9" />
+
         <TextView
             android:id="@+id/textView"
             style="@style/vocabBuddy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="VOCAB BUDDY"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -50,6 +62,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.85" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline1"
@@ -77,7 +96,7 @@
             style="@style/cardView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="5dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
@@ -165,7 +184,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Enter a number between 1-10 indicating the difficulty"
+                    android:text="Select difficulty between 1 (easiest) and 10 (hardest)"
                     app:layout_constraintEnd_toStartOf="@+id/guideline5"
                     app:layout_constraintStart_toStartOf="@+id/guideline4"
                     app:layout_constraintTop_toBottomOf="@+id/tilMenu" />
@@ -173,25 +192,22 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilDifficulty"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:hint="Difficulty"
                     app:layout_constraintEnd_toStartOf="@+id/guideline5"
                     app:layout_constraintStart_toStartOf="@+id/guideline4"
                     app:layout_constraintTop_toBottomOf="@+id/selectDifficulty">
 
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/etDifficulty"
-                        style="@style/enterDifficulty"
+                    <AutoCompleteTextView
+                        android:id="@+id/autoCompleteTextView3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Enter a number"
-                        android:imeOptions="actionGo"
-                        android:inputType="number"
-                        android:maxLength="2"
-                        tools:layout_editor_absoluteX="49dp"
-                        tools:layout_editor_absoluteY="208dp" />
+                        android:layout_weight="1"
+                        android:inputType="none"
+                        android:text="3" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

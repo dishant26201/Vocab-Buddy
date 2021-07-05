@@ -42,6 +42,7 @@ class SettingsActivity : AppCompatActivity() {
         val editor1 = sharedPref1.edit()
 
         val isDarkMode = sharedPref1.getBoolean("isDarkMode", false)
+
         Constants.setDisplayMode(isDarkMode)
         binding.darkMode.isChecked = isDarkMode
 
@@ -105,13 +106,21 @@ class SettingsActivity : AppCompatActivity() {
 
     // this event will enable the back
     // function to the button on press
-    override fun onContextItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 return true
             }
         }
-        return super.onContextItemSelected(item)
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(
+            R.anim.slide_in_left,
+            R.anim.slide_out_right
+        )
     }
 }

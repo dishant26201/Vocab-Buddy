@@ -83,18 +83,16 @@
                 android:id="@+id/tvTap"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Tap on word to know what it means"
+                android:text="Tap on a word to know what it means"
                 android:gravity="center"
-                android:textColor="@color/disableGrey"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                style="@style/meaningEnableText" />
 
             <ImageView
                 android:id="@+id/ivLockUnlock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:src="@drawable/ic_lock"
+                android:src="@drawable/ic_bulb_disable"
                 android:contentDescription="Lock || Unlock" />
 
         </LinearLayout>
@@ -103,7 +101,7 @@
             android:id="@+id/tvQuestion1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/default_option_bg1"
             android:gravity="center"
             android:padding="8dp"
@@ -135,7 +133,7 @@
             android:id="@+id/tvQuestion3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/default_option_bg3"
             android:gravity="center"
             android:padding="8dp"

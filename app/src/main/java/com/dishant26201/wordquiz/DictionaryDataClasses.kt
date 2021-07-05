@@ -1,7 +1,6 @@
 package com.dishant26201.test
 
 import com.google.gson.annotations.SerializedName
-import java.net.URL
 
 data class WordResults(
     @SerializedName("word") val word : String,
@@ -23,7 +22,3 @@ data class Definition(
     @SerializedName("example") val example : String,
     @SerializedName("synonyms") val synonyms : List<String>
 )
-
-//data class Synonym(
-//    @SerializedName("synonym") val synonym : String
-//)

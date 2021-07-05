@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dishant26201.wordquiz">
-
     <!-- Permissions of internet -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,9 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WordQuiz">
-        <activity android:name=".SettingsActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".LaunchActivity" />
+
+        <activity
+            android:name=".ScoreCardActivity"
+            android:parentActivityName=".LaunchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".LaunchActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ResultActivity"
             android:screenOrientation="portrait"

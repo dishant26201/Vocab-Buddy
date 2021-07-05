@@ -11,15 +11,18 @@
     <color name="marineBlue">#004d99</color>
     <color name="nightBlue">#000066</color>
     <color name="grassGreen">#00e600</color>
-    <color name="darkGrassGreen">#009900</color>
+    <color name="darkGrassGreen">#00e600</color>
     <color name="lead">#666666</color>
     <color name="lightGrey">#f2f2f2</color>
     <color name="disableGrey">#d9d9d9</color>
-    <color name="darkGrey">#b3b3b3</color>
+    <color name="settingsGrey">#d9d9d9</color>
+    <color name="disableGreyNight">#4d4d4d</color>
+    <color name="darkGrey">#666666</color>
     <color name="darkPurple">#400080</color>
     <color name="indigo">#333399</color>
     <color name="lavender">#6666cc</color>
     <color name="nightBg">#1a1a1a</color>
+    <color name="resetRed">#e60000</color>
 
     <!-- Light theme -->
     <color name="primary">#03A9F4</color>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clMain"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingVertical="6dp">
+
+
+    <TextView
+        android:id="@+id/tvMeaningHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="intrasitive verb"
+        style="@style/partOfSpeech"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvMeaning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="in Christianity and other monotheistic religions) the creator and ruler of the universe and source of all moral authority; the supreme being."
+        style="@style/partOfSpeechMeaning"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMeaningHeading" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/llSynonymHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMeaning">
+
+        <TextView
+            android:id="@+id/tvSynonymHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Similar:"
+            android:textColor="@color/darkGrassGreen"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSynonyms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:foregroundGravity="left"
+            android:gravity="left"
+            android:text="plate"
+            style="@style/partOfSpeechMeaning"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="@id/llSynonymHolder"
+            app:layout_constraintStart_toEndOf="@+id/tvSynonymHeading"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

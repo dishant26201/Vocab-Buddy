@@ -2,34 +2,41 @@ package com.dishant26201.wordquiz
 
 import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import com.dishant26201.quizapp.Constants
-import com.dishant26201.wordquiz.databinding.ActivityQuizQuestionsBinding
 import com.dishant26201.wordquiz.databinding.ActivityResultBinding
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.reflect.Type
+
 
 private const val TAG = "ResultActivity"
 private const val BASE_URL = "https://api.twinword.com/"
-//private const val API_KEY = "demo" // This a dummy key. The API will not work with this key
+private const val API_KEY = "demo" // This a dummy key. The API will not work with this key
 
 class ResultActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityResultBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityResultBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        val testType = intent.getStringExtra(Constants.TEST_TYPE)!!
 
         val correctAnswers = intent.getIntExtra(Constants.CORRECT_ANSWERS, 0)
         val totalQuestions = intent.getIntExtra(Constants.TOTAL_QUESTION, 0)
@@ -49,6 +56,19 @@ class ResultActivity : AppCompatActivity() {
             binding.tvInitialComment.text = "Way To Go!"
             binding.ivPerformanceImage.setImageResource(R.drawable.ic_trophy)
             binding.tvFeedback.text = "This is fantastic! But don't get overconfident. Keep practicing!"
+        }
+
+        if (getArrayList("scoreList") == null){
+            val scoreListNew = ArrayList<ScoreDataClasses?>() //Creating an empty arraylist
+            val scoreDataEntry = ScoreDataClasses(intent.getStringExtra(Constants.TEST_TYPE)!!, intent.getStringExtra(Constants.DIFFICULTY)!!, correctAnswers, totalQuestions)
+            scoreListNew.add(scoreDataEntry)
+            saveArrayList(scoreListNew, "scoreList")
+        }
+        else {
+            val scoreList = getArrayList("scoreList")
+            val scoreDataEntry = ScoreDataClasses(intent.getStringExtra(Constants.TEST_TYPE)!!, intent.getStringExtra(Constants.DIFFICULTY)!!, correctAnswers, totalQuestions)
+            scoreList!!.add(scoreDataEntry)
+            saveArrayList(scoreList, "scoreList")
         }
 
 
@@ -139,5 +159,32 @@ class ResultActivity : AppCompatActivity() {
             val alert = builder.create()
             alert.show()
         }
+
+        binding.btnScoreCard.setOnClickListener {
+            val intent = Intent(this, ScoreCardActivity::class.java)
+            intent.putExtra(Constants.TEST_TYPE, testType)
+            startActivity(intent)
+            overridePendingTransition(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
+        }
+    }
+
+    fun saveArrayList(list: ArrayList<ScoreDataClasses?>?, key: String?) {
+        val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = prefs.edit()
+        val gson = Gson()
+        val json = gson.toJson(list)
+        editor.putString(key, json)
+        editor.apply() // This line is IMPORTANT !!!
+    }
+
+    fun getArrayList(key: String?): ArrayList<ScoreDataClasses?>? {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val gson = Gson()
+        val json = prefs.getString(key, null)
+        val type: Type = object : TypeToken<ArrayList<ScoreDataClasses?>?>() {}.type
+        return gson.fromJson(json, type)
     }
 }
