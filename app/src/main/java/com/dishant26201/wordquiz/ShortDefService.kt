@@ -7,7 +7,7 @@ import retrofit2.http.Path
 
 public interface ShortDefService {
 
-    @GET("{word}?key=da32f93f-7157-4e81-800d-1e68b80297f7")
+    @GET("{word}?key=???")
     fun getShortDef(
         @Path("word") word: String
     ): Call<List<ShortDef>>
