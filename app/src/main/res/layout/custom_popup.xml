@@ -2,12 +2,14 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_marginHorizontal="24dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center" >
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp">
 
@@ -44,15 +46,26 @@
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="Close" />
 
+        <ImageButton
+            android:id="@+id/btnBookmarkDiffWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@null"
+            android:src="@drawable/ic_bookmark_not_added"
+            android:contentDescription="Bookmark"
+            app:layout_constraintEnd_toStartOf="@+id/btnClose"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <LinearLayout
             android:id="@+id/llMeaningHolder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginTop="6dp"
+            android:orientation="vertical"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constrainedWidth="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintEnd_toEndOf="@+id/btnClose"
             app:layout_constraintStart_toStartOf="@+id/tvWord"
             app:layout_constraintTop_toBottomOf="@+id/tvWord">
 
@@ -61,29 +74,26 @@
 <!--                android:id="@+id/clMain"-->
 <!--                android:layout_width="wrap_content"-->
 <!--                android:layout_height="wrap_content"-->
-<!--                android:paddingVertical="4dp">-->
+<!--                android:paddingVertical="6dp">-->
 
 
 <!--                <TextView-->
 <!--                    android:id="@+id/tvMeaningHeading"-->
+<!--                    style="@style/partOfSpeech"-->
 <!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="intrasitive verb"-->
-<!--                    android:textColor="@android:color/black"-->
-<!--                    android:textSize="16sp"-->
-<!--                    android:textStyle="bold"-->
+<!--                    android:text="definition"-->
 <!--                    app:layout_constrainedWidth="true"-->
 <!--                    app:layout_constraintStart_toStartOf="parent"-->
 <!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
 <!--                <TextView-->
 <!--                    android:id="@+id/tvMeaning"-->
+<!--                    style="@style/partOfSpeechMeaning"-->
 <!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->
 <!--                    android:layout_marginTop="4dp"-->
-<!--                    android:text="in Christianity and other monotheistic religions) the creator and ruler of the universe and source of all moral authority; the supreme being."-->
-<!--                    android:textColor="@color/darkGrey"-->
-<!--                    android:textSize="14sp"-->
+<!--                    android:text="Meaning here"-->
 <!--                    app:layout_constrainedWidth="true"-->
 <!--                    app:layout_constraintEnd_toEndOf="parent"-->
 <!--                    app:layout_constraintHorizontal_bias="0.0"-->
@@ -92,39 +102,6 @@
 
 <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:id="@+id/llSynonymHolder"-->
-<!--                android:paddingTop="4dp"-->
-<!--                android:paddingBottom="6dp">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/tvSynonymHeading"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Similar:"-->
-<!--                    android:textColor="@color/darkGrassGreen"-->
-<!--                    android:textSize="14sp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/tvSynonyms"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="8dp"-->
-<!--                    android:text="plate"-->
-<!--                    android:textColor="@color/darkGrey"-->
-<!--                    android:textSize="14sp"-->
-<!--                    app:layout_constrainedWidth="true"-->
-<!--                    app:layout_constraintEnd_toEndOf="@+id/llSynonymHolder"-->
-<!--                    app:layout_constraintStart_toEndOf="@+id/tvSynonymHeading"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
-
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
         </LinearLayout>
 

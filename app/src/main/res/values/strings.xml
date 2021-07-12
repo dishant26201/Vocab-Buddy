@@ -24,6 +24,11 @@
         <item>KSAT</item>
     </string-array>
 
+    <string-array name="sortBy">
+        <item>A - Z</item>
+        <item>Z - A</item>
+    </string-array>
+
     <string-array name="difficulty">
         <item>1</item>
         <item>2</item>

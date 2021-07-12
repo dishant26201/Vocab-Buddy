@@ -1,12 +1,10 @@
 package com.dishant26201.wordquiz
 
-import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.Icon
-import android.graphics.drawable.VectorDrawable
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -22,27 +20,33 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
-import androidx.core.view.MenuItemCompat
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import androidx.preference.PreferenceManager
 import com.dishant26201.quizapp.Constants
 import com.dishant26201.test.DictionaryService
+import com.dishant26201.test.ShortDef
+import com.dishant26201.test.ShortDefService
 import com.dishant26201.test.WordResults
 import com.dishant26201.wordquiz.R.color.disableGrey
 import com.dishant26201.wordquiz.R.color.disableGreyNight
 import com.dishant26201.wordquiz.databinding.ActivityQuizQuestionsBinding
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import java.lang.reflect.Type
 import java.util.*
 import kotlin.collections.ArrayList
 
 
 private const val TAG = "QuizQuestionsActivity"
 private const val BASE_URL = "https://api.twinword.com/"
-private const val BASE_URL2 = "https://api.dictionaryapi.dev/api/v2/"
+private const val DICTIONARY_URL = "https://api.dictionaryapi.dev/api/v2/"
+private const val ALTERNATE_DICTIONARY_URL = "https://dictionaryapi.com/api/v3/references/collegiate/json/"
+
 
 class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -70,11 +74,11 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_YES -> {
-                supportActionBar?.setBackgroundDrawable(getDrawable(R.color.primaryColor))
+                supportActionBar?.setBackgroundDrawable(AppCompatResources.getDrawable(this, R.color.primaryColor))
                 darkMode = true
             }
             Configuration.UI_MODE_NIGHT_NO -> {
-                supportActionBar?.setBackgroundDrawable(getDrawable(R.color.primary))
+                supportActionBar?.setBackgroundDrawable(AppCompatResources.getDrawable(this, R.color.primary))
                 darkMode = false
             }
         }
@@ -97,7 +101,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.nav_menu, menu)
         restart = menu!!.findItem(R.id.ic_restart)
-        exit = menu!!.findItem(R.id.ic_exit)
+        exit = menu.findItem(R.id.ic_exit)
         return true
     }
 
@@ -163,7 +167,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                                 if (response.code() == 503) {
                                     val dialogBuilder = android.app.AlertDialog.Builder(this@QuizQuestionsActivity)
                                     dialogBuilder.setMessage("Sorry. Our servers are currently down. Please try again later.")
-                                    dialogBuilder.setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, whichButton -> })
+                                    dialogBuilder.setPositiveButton("Ok",  { dialog, whichButton -> })
                                     val dialog = dialogBuilder.create()
                                     dialog.show()
                                 }
@@ -438,10 +442,74 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun alternateDef(word: String) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(ALTERNATE_DICTIONARY_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val shortDefService = retrofit.create(ShortDefService::class.java)
+
+        val popUpView : View? = layoutInflater.inflate(R.layout.custom_popup, null, false)
+        popUpView!!.findViewById<TextView>(R.id.tvWord).text = word.toString()
+            .lowercase().replaceFirstChar { it.uppercase() }
+
+        shortDefService.getShortDef(word).enqueue(object : Callback<List<ShortDef>> {
+            override fun onResponse(call: Call<List<ShortDef>>, response: Response<List<ShortDef>>) {
+                Log.i(TAG, "onResponse $response")
+
+                if (response.code() == 200 && !(response.body()!!.isNullOrEmpty()) && !(response.body()!![0].shortdef.isNullOrEmpty())){
+                    val audioUrl = null
+                    val meanings = response.body()!![0].shortdef
+                    var cnt = 1
+                    for (meaning in meanings) {
+                        val meaningView : View
+
+                        meaningView = layoutInflater.inflate(R.layout.meaning_layout, null, false)
+
+                        meaningView.findViewById<TextView>(R.id.tvMeaningHeading).text = "definition " + cnt
+                        meaningView.findViewById<TextView>(R.id.tvMeaningHeading).setTypeface(null, Typeface.BOLD_ITALIC)
+                        meaningView.findViewById<TextView>(R.id.tvMeaning).text = meaning
+
+                        popUpView.findViewById<LinearLayout>(R.id.llMeaningHolder).addView(meaningView)
+
+
+                        Log.i(TAG, "${meaningView.findViewById<TextView>(R.id.tvMeaningHeading).text}" )
+                        Log.i(TAG, "${meaningView.findViewById<TextView>(R.id.tvMeaning).text}" )
+                        cnt ++
+                    }
+                    createPopUpDictionary(popUpView, audioUrl, word, true)
+                }
+                else {
+                    val audioUrl = null
+                    val noMeaningView : View = layoutInflater.inflate(R.layout.no_meaning, null, false)
+
+                    popUpView.findViewById<LinearLayout>(R.id.llMeaningHolder).addView(noMeaningView)
+
+                    createPopUpDictionary(popUpView, audioUrl, word, false)
+                }
+
+            }
+
+            override fun onFailure(call: Call<List<ShortDef>>, t: Throwable) {
+                val audioUrl = null
+
+                val noMeaningView : View = layoutInflater.inflate(R.layout.no_meaning, null, false)
+
+                popUpView.findViewById<LinearLayout>(R.id.llMeaningHolder).addView(noMeaningView)
+
+                createPopUpDictionary(popUpView, audioUrl, word, false)
+
+                Log.i(TAG, t.toString())
+            }
+        })
+    }
+
+
     private fun findMeaning(word: String) {
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL2)
+            .baseUrl(DICTIONARY_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -453,7 +521,6 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             .lowercase().replaceFirstChar { it.uppercase() }
 
         dictionaryService.getMeaning(word).enqueue(object : Callback<List<WordResults>> {
-//            @RequiresApi(Build.VERSION_CODES.Q)
             override fun onResponse(
                 call: Call<List<WordResults>>,
                 response: Response<List<WordResults>>
@@ -461,10 +528,15 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
                 Log.i(TAG, "onResponse $response")
 
-                if (response.code() == 200 && !(response.body()!![0].meanings.isNullOrEmpty())){
+                if (response.code() == 200 && !(response.body()!!.isNullOrEmpty()) && !(response.body()!![0].meanings.isNullOrEmpty())){
+                    val audioUrl : String?
                     val meanings = response.body()!![0].meanings
-                    val audioUrl = response.body()!![0].phonetics[0].audio
-
+                    if (response.body()!![0].phonetics.isNullOrEmpty()){
+                        audioUrl = null
+                    }
+                    else {
+                        audioUrl = response.body()!![0].phonetics[0].audio
+                    }
 
                     for (meaning in meanings) {
 
@@ -495,44 +567,94 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                         Log.i(TAG, "${meaningView.findViewById<TextView>(R.id.tvMeaning).text}" )
 
                     }
-                    createPopUp(popUpView, audioUrl)
+                    createPopUpDictionary(popUpView, audioUrl, word, true)
                 }
                 else {
-                    val audioUrl = null
-                    val noMeaningView : View = layoutInflater.inflate(R.layout.no_meaning, null, false)
-
-                    popUpView.findViewById<LinearLayout>(R.id.llMeaningHolder).addView(noMeaningView)
-
-                    createPopUp(popUpView, audioUrl)
-
-                    Toast.makeText(this@QuizQuestionsActivity, "Could not find meaning", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@QuizQuestionsActivity, "Please wait...", Toast.LENGTH_SHORT).show()
+                    alternateDef(word)
 
                 }
             }
 
             override fun onFailure(call: Call<List<WordResults>>, t: Throwable) {
 
-                val audioUrl = null
-
-                val noMeaningView : View = layoutInflater.inflate(R.layout.no_meaning, null, false)
-
-                popUpView.findViewById<LinearLayout>(R.id.llMeaningHolder).addView(noMeaningView)
-
-                createPopUp(popUpView, audioUrl)
-
-                Toast.makeText(this@QuizQuestionsActivity, "Could not find meaning", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@QuizQuestionsActivity, "Please wait...", Toast.LENGTH_SHORT).show()
+                alternateDef(word)
             }
 
         })
     }
 
-    private fun createPopUp(popUpView : View?, audioUrl : String?) {
+    private fun createPopUpDictionary(popUpView : View?, audioUrl : String?, wordX: String, meaningYes : Boolean) {
         val dialog = android.app.AlertDialog.Builder(this)
             .setView(popUpView)
             .create()
         popUpView!!.findViewById<ImageButton>(R.id.btnClose)?.setOnClickListener {
             dialog.dismiss()
         }
+
+        if (getArrayListMeaning("general") != null){
+            val meaningList = getArrayListMeaning("general")
+            var cnt = 0
+            for (meaning in meaningList!!) {
+                if (wordX.lowercase() == meaning!!.toString().lowercase()) {
+                    cnt ++
+                }
+            }
+            if (cnt == 0) {
+                popUpView.findViewById<ImageButton>(R.id.btnBookmarkDiffWord).setImageResource(R.drawable.ic_bookmark_not_added)
+            }
+            else {
+                popUpView.findViewById<ImageButton>(R.id.btnBookmarkDiffWord).setImageResource(R.drawable.ic_bookmark_added)
+            }
+        }
+        else {
+            popUpView.findViewById<ImageButton>(R.id.btnBookmarkDiffWord).setImageResource(R.drawable.ic_bookmark_not_added)
+        }
+
+        popUpView.findViewById<ImageButton>(R.id.btnBookmarkDiffWord).setOnClickListener {
+            if (meaningYes) {
+                if (getArrayListMeaning("general") == null){
+                    val meaningListNew = ArrayList<String?>() //Creating an empty arraylist
+
+                    val entry = wordX.lowercase()
+
+                    meaningListNew.add(entry)
+                    saveArrayListMeaning(meaningListNew, "general")
+                    popUpView.findViewById<ImageButton>(R.id.btnBookmarkDiffWord).setImageResource(R.drawable.ic_bookmark_added)
+                    Toast.makeText(this, "Word added to saved", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    val meaningList = getArrayListMeaning("general")
+                    val removeList = ArrayList<String?>()
+                    var cnt = 0
+                    for (meaning in meaningList!!) {
+                        if (wordX.lowercase() == meaning!!.toString().lowercase()) {
+                            removeList.add(meaning.toString().lowercase())
+                            cnt ++
+                        }
+                    }
+                    if (cnt > 0) {
+                        meaningList.removeAll(removeList)
+                        popUpView.findViewById<ImageButton>(R.id.btnBookmarkDiffWord).setImageResource(R.drawable.ic_bookmark_not_added)
+                        Toast.makeText(this, "Word removed from saved", Toast.LENGTH_SHORT).show()
+                    }
+                    else {
+                        val entry = wordX.lowercase()
+                        meaningList.add(entry)
+                        popUpView.findViewById<ImageButton>(R.id.btnBookmarkDiffWord).setImageResource(R.drawable.ic_bookmark_added)
+                        Toast.makeText(this, "Word added to saved", Toast.LENGTH_SHORT).show()
+                    }
+                    saveArrayListMeaning(meaningList, "general")
+                }
+            }
+            else {
+                Toast.makeText(this, "Sorry, you can't save this word", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+        }
+
 
         if (audioUrl != null) {
             popUpView.findViewById<ImageButton>(R.id.btnAudio)?.setOnClickListener {
@@ -555,8 +677,6 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
-                // below line is use to display a toast message.
-                // below line is use to display a toast message.
             }
         }
         else {
@@ -572,5 +692,22 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnCheck.isClickable = true
         exit.isEnabled = true
         restart.isEnabled = true
+    }
+
+    fun saveArrayListMeaning(list: ArrayList<String?>?, key: String?) {
+        val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = prefs.edit()
+        val gson = Gson()
+        val json = gson.toJson(list)
+        editor.putString(key, json)
+        editor.apply() // This line is IMPORTANT !!!
+    }
+
+    fun getArrayListMeaning(key: String?): ArrayList<String?>? {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val gson = Gson()
+        val json = prefs.getString(key, null)
+        val type: Type = object : TypeToken<ArrayList<String?>?>() {}.type
+        return gson.fromJson(json, type)
     }
 }

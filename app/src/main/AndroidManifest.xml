@@ -12,7 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WordQuiz">
-
+        <activity
+            android:name=".DifficultWordsActivity"
+            android:parentActivityName=".LaunchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DictionaryActivity"
+            android:parentActivityName=".LaunchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ScoreCardActivity"
             android:parentActivityName=".LaunchActivity"

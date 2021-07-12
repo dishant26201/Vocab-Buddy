@@ -58,17 +58,6 @@ class LaunchActivity : AppCompatActivity() {
             difficulty = parent.getItemAtPosition(position).toString()
         }
 
-        binding.btnScore.setOnClickListener {
-            val intent = Intent(this@LaunchActivity, ScoreCardActivity::class.java)
-            intent.putExtra(Constants.TEST_TYPE, "Overall")
-            startActivity(intent)
-            overridePendingTransition(
-                R.anim.slide_in_right,
-                R.anim.slide_out_left
-            )
-        }
-
-
         binding.btnStart.setOnClickListener {
             Toast.makeText(
                 this@LaunchActivity,
@@ -143,6 +132,35 @@ class LaunchActivity : AppCompatActivity() {
                 R.anim.slide_out_left
             )
         }
+
+        binding.btnScore.setOnClickListener {
+            val intent = Intent(this@LaunchActivity, ScoreCardActivity::class.java)
+            intent.putExtra(Constants.TEST_TYPE, "Overall")
+            startActivity(intent)
+            overridePendingTransition(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
+        }
+
+        binding.btnSearch.setOnClickListener {
+            val intent = Intent(this@LaunchActivity, DictionaryActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
+        }
+
+        binding.btnBookmark.setOnClickListener {
+            val intent = Intent(this@LaunchActivity, DifficultWordsActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
+        }
+
     }
 
     override fun onResume() {
@@ -158,8 +176,8 @@ class LaunchActivity : AppCompatActivity() {
 
     fun showDialog() {
         val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder.setMessage("Select the exam you want to prepare for and the difficulty level of the questions that you wish to attempt. Tap on the buttons in the top right corner to manage settings and view your scorecard. " +
-                "There are over 19000 words across 8 different test types and 10 difficulty levels, so you can rest assured that you will never run out of questions to practice!")
+        dialogBuilder.setMessage("- Select the exam you want to prepare for and the difficulty level of the questions that you wish to attempt. \n\n" +
+                "- Tap on the icons in the top right corner to manage settings, view your scorecard, access the dictionary feature, and view your saved words.")
         dialogBuilder.setPositiveButton("Got It!", DialogInterface.OnClickListener { dialog, whichButton -> })
         val dialog = dialogBuilder.create()
         dialog.show()

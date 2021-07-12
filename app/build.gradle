@@ -5,6 +5,18 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        releaseMode {
+//            storeFile file('/Users/dishant/Desktop/Keystore/Keystore.ks')
+//            storePassword 'Johnmayer123.'
+//            keyPassword 'Johnmayer123.'
+//            keyAlias 'key0'
+            storeFile file('/Users/dishant/Desktop/Vocab Buddy/Keystore/test_keystore_file.jks')
+            storePassword 'admin123'
+            keyPassword 'admin123'
+            keyAlias 'key1'
+        }
+    }
 
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -13,12 +25,12 @@ android {
         applicationId "com.dishant26201.wordquiz"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 6
-        versionName "4.01"
+        versionCode 7
+        versionName "5.0.0"
 
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        signingConfig signingConfigs.releaseMode
+        signingConfig signingConfigs.releaseMode
     }
 
     buildTypes {
@@ -63,4 +75,13 @@ dependencies {
     // Navigation Components
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    def room_version = "2.3.0"
+
+    // Coroutine Lifecycle Scopes
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+
+    implementation 'com.google.code.gson:gson:2.8.7'
+    
 }

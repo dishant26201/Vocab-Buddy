@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     android:fillViewport="true"
-    android:id="@+id/svMain"
+    android:id="@+id/clMainDiffWords"
     tools:context=".QuizQuestionsActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout

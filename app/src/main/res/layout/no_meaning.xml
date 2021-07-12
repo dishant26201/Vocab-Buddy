@@ -9,7 +9,7 @@
         android:id="@+id/tvMeaningHeading"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="Sorry, no meaning available :("
+        android:text="Sorry, no meaning and audio available :("
         style="@style/partOfSpeech"
         android:textStyle="bold" />
 

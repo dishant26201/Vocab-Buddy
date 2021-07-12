@@ -11,6 +11,8 @@
     <color name="marineBlue">#004d99</color>
     <color name="nightBlue">#000066</color>
     <color name="grassGreen">#00e600</color>
+    <color name="darkGreen">#00b300</color>
+    <color name="darkerGreen">#009900</color>
     <color name="darkGrassGreen">#00e600</color>
     <color name="lead">#666666</color>
     <color name="lightGrey">#f2f2f2</color>

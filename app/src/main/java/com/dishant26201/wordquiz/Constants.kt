@@ -1,10 +1,8 @@
 package com.dishant26201.quizapp
 
-import android.widget.Switch
 import androidx.appcompat.app.AppCompatDelegate
 import com.dishant26201.wordquiz.*
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 
 private const val TAG = "API_CALL"
 object Constants {

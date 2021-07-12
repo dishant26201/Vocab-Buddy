@@ -128,6 +128,12 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <!-- Word count -->
+    <style name="wordCount" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <!-- part of speech meaning -->
     <style name="partOfSpeechMeaning" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">14sp</item>
