@@ -65,6 +65,8 @@ class LaunchActivity : AppCompatActivity() {
                 "Loading questions. Please wait.",
                 Toast.LENGTH_SHORT
             ).show()
+            
+            Constants.questionsListX.clear()
 
             Constants.questionsListX.clear()
 
