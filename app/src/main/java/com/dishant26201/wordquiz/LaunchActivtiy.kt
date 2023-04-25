@@ -19,11 +19,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import androidx.appcompat.widget.AppCompatSpinner
+import android.widget.EditText
 
 
 private const val TAG = "LaunchActivity"
 private const val BASE_URL = "https://api.twinword.com/"
-private const val API_KEY = "demo" // this is a dummy key. The API will not work with this key
 
 class LaunchActivity : AppCompatActivity() {
 
@@ -64,6 +65,8 @@ class LaunchActivity : AppCompatActivity() {
                 "Loading questions. Please wait.",
                 Toast.LENGTH_SHORT
             ).show()
+
+            Constants.questionsListX.clear()
 
             binding.btnStart.isEnabled = false
             binding.btnStart.isClickable = false
@@ -121,6 +124,7 @@ class LaunchActivity : AppCompatActivity() {
                     binding.btnStart.isEnabled = true
                     binding.btnStart.isClickable = true
                 }
+
             })
         }
 
@@ -137,10 +141,7 @@ class LaunchActivity : AppCompatActivity() {
             val intent = Intent(this@LaunchActivity, ScoreCardActivity::class.java)
             intent.putExtra(Constants.TEST_TYPE, "Overall")
             startActivity(intent)
-            overridePendingTransition(
-                R.anim.slide_in_right,
-                R.anim.slide_out_left
-            )
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
         binding.btnSearch.setOnClickListener {

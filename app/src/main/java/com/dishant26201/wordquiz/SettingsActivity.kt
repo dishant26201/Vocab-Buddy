@@ -17,7 +17,9 @@ class SettingsActivity : AppCompatActivity() {
     private val EMAIL : String = "dishant26201@gmail.com"
     private val EMAIL_SUBJECT : String = "Vocab Buddy Feedback"
     private val EMAIL_CHOOSER : String = "SEND EMAIL"
-    private lateinit var binding: ActivitySettingsBinding
+    private lateinit var binding : ActivitySettingsBinding
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +70,7 @@ class SettingsActivity : AppCompatActivity() {
                 val shareIntent = Intent(Intent.ACTION_SEND)
                 shareIntent.type = "text/plain"
                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My application name")
-                var shareMessage = "\nCheck out this App!\n"
+                var shareMessage = "\nPrepare for IELTS, TOEFL, SAT, and other Standardized English Tests with VOCAB BUDDY! 100% FREE and AD-FREE!\n"
                 shareMessage =
                     """
                     ${shareMessage}https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}

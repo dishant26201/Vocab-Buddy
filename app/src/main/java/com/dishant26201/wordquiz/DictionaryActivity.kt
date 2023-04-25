@@ -7,6 +7,7 @@ import android.media.AudioAttributes
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -29,16 +30,19 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import java.lang.reflect.Type
+import java.util.*
+import kotlin.collections.ArrayList
 
 private const val TAG = "DictionaryActivity"
 private const val DICTIONARY_URL = "https://api.dictionaryapi.dev/api/v2/"
 private const val ALTERNATE_DICTIONARY_URL = "https://dictionaryapi.com/api/v3/references/collegiate/json/"
 
-class DictionaryActivity : AppCompatActivity() {
+class DictionaryActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private lateinit var binding: ActivityDictionaryBinding
     private var flag = true
     private lateinit var word : String
+    private var mTTs : TextToSpeech? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +64,8 @@ class DictionaryActivity : AppCompatActivity() {
                 supportActionBar?.setBackgroundDrawable(getDrawable(R.color.primary))
             }
         }
+
+        mTTs = TextToSpeech(this, this);
 
         binding.btnGo.setOnClickListener {
             if (binding.etWord.text.toString().isEmpty()) {
@@ -139,7 +145,7 @@ class DictionaryActivity : AppCompatActivity() {
                         Log.i(TAG, "${meaningView.findViewById<TextView>(R.id.tvMeaning).text}" )
                         cnt ++
                     }
-                    createPopUpDictionary(popUpView, audioUrl, word, true)
+                    createPopUpDictionary(popUpView, word, true)
                 }
                 else {
                     val audioUrl = null
@@ -147,7 +153,7 @@ class DictionaryActivity : AppCompatActivity() {
 
                     popUpView.findViewById<LinearLayout>(R.id.llMeaningHolder).addView(noMeaningView)
 
-                    createPopUpDictionary(popUpView, audioUrl, word, false)
+                    createPopUpDictionary(popUpView, word, false)
                 }
                 flag = true
 
@@ -160,7 +166,7 @@ class DictionaryActivity : AppCompatActivity() {
 
                 popUpView.findViewById<LinearLayout>(R.id.llMeaningHolder).addView(noMeaningView)
 
-                createPopUpDictionary(popUpView, audioUrl, word, false)
+                createPopUpDictionary(popUpView, word, false)
 
                 Log.i(TAG, t.toString())
                 flag = true
@@ -194,14 +200,7 @@ class DictionaryActivity : AppCompatActivity() {
                 Log.i(TAG, "onResponse $response")
 
                 if (response.code() == 200 && !(response.body()!!.isNullOrEmpty()) && !(response.body()!![0].meanings.isNullOrEmpty())){
-                    val audioUrl : String?
                     val meanings = response.body()!![0].meanings
-                    if (response.body()!![0].phonetics.isNullOrEmpty()){
-                        audioUrl = null
-                    }
-                    else {
-                        audioUrl = response.body()!![0].phonetics[0].audio
-                    }
 
                     for (meaning in meanings) {
 
@@ -232,7 +231,7 @@ class DictionaryActivity : AppCompatActivity() {
                         Log.i(TAG, "${meaningView.findViewById<TextView>(R.id.tvMeaning).text}" )
 
                     }
-                    createPopUpDictionary(popUpView, audioUrl, word, true)
+                    createPopUpDictionary(popUpView, word, true)
                 }
                 else {
                     Toast.makeText(this@DictionaryActivity, "Please wait...", Toast.LENGTH_SHORT).show()
@@ -250,7 +249,7 @@ class DictionaryActivity : AppCompatActivity() {
         })
     }
 
-    private fun createPopUpDictionary(popUpView : View?, audioUrl : String?, wordX: String, meaningYes : Boolean) {
+    private fun createPopUpDictionary(popUpView : View?, wordX: String, meaningYes : Boolean) {
         val dialog = android.app.AlertDialog.Builder(this)
             .setView(popUpView)
             .create()
@@ -320,33 +319,13 @@ class DictionaryActivity : AppCompatActivity() {
 
         }
 
-
-        if (audioUrl != null) {
-            popUpView.findViewById<ImageButton>(R.id.btnAudio)?.setOnClickListener {
-                Toast.makeText(this, "Fetching audio...", Toast.LENGTH_SHORT).show()
-
-                val mediaPlayer = MediaPlayer()
-
-                mediaPlayer.setAudioAttributes(
-                    AudioAttributes.Builder()
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                        .build()
-                )
-
-                try {
-                    mediaPlayer.setDataSource(audioUrl)
-                    // below line is use to prepare
-                    // and start our media player.
-                    mediaPlayer.prepare()
-                    mediaPlayer.start()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
+        popUpView.findViewById<ImageButton>(R.id.btnAudio)?.setOnClickListener {
+            if (meaningYes) {
+                speakWord(wordX.toString());
             }
-        }
-        else {
-            popUpView.findViewById<ImageButton>(R.id.btnAudio)?.isClickable = false
-            popUpView.findViewById<ImageButton>(R.id.btnAudio)?.isEnabled = false
+            else {
+                Toast.makeText(this, "Audio not available", Toast.LENGTH_SHORT).show()
+            }
         }
 
         dialog.show()
@@ -371,4 +350,35 @@ class DictionaryActivity : AppCompatActivity() {
         val type: Type = object : TypeToken<ArrayList<String?>?>() {}.type
         return gson.fromJson(json, type)
     }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val result = mTTs!!.setLanguage(Locale.US)
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "Language specified not supported")
+            }
+            else {
+                Log.e("TTS", "Language supported")
+            }
+        }
+        else {
+            Log.e("TTS", "Initialization failed!")
+        }
+    }
+
+    private fun speakWord(word: String) {
+        mTTs!!.speak(word, TextToSpeech.QUEUE_FLUSH, null,"")
+    }
+
+    public override fun onDestroy() {
+        // Shutdown TTS
+        if (mTTs != null) {
+            mTTs!!.stop()
+            mTTs!!.shutdown()
+        }
+        super.onDestroy()
+    }
+
+
 }

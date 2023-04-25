@@ -22,3 +22,17 @@
 -keepclassmembers,allowobfuscation class * {
   @com.google.gson.annotations.SerializedName <fields>;
 }
+
+# Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
+# EnclosingMethod is required to use InnerClasses.
+-keepattributes Signature, InnerClasses, EnclosingMethod, Exceptions
+
+# Retrofit does reflection on method and parameter annotations.
+-keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
+
+# Keep annotation default values (e.g., retrofit2.http.Field.encoded).
+-keepattributes AnnotationDefault
+
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+

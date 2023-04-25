@@ -8,6 +8,7 @@ import android.graphics.Typeface
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -48,7 +49,7 @@ private const val DICTIONARY_URL = "https://api.dictionaryapi.dev/api/v2/"
 private const val ALTERNATE_DICTIONARY_URL = "https://dictionaryapi.com/api/v3/references/collegiate/json/"
 
 
-class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
+class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener, TextToSpeech.OnInitListener {
 
     private var mCurrentPosition: Int = 1
     private var mQuestionsList: ArrayList<Questions>? = null
@@ -56,6 +57,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private var mCorrectAnswers: Int = 0
     private var submitted = false
     private var opSelected = false
+    private var mTTs : TextToSpeech? = null
 
     private var darkMode : Boolean = false
 
@@ -71,6 +73,8 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(view)
 
         supportActionBar?.title = "Vocab Buddy"
+
+        mTTs = TextToSpeech(this, this);
 
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_YES -> {
@@ -478,7 +482,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                         Log.i(TAG, "${meaningView.findViewById<TextView>(R.id.tvMeaning).text}" )
                         cnt ++
                     }
-                    createPopUpDictionary(popUpView, audioUrl, word, true)
+                    createPopUpDictionary(popUpView, word, true)
                 }
                 else {
                     val audioUrl = null
@@ -486,7 +490,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
                     popUpView.findViewById<LinearLayout>(R.id.llMeaningHolder).addView(noMeaningView)
 
-                    createPopUpDictionary(popUpView, audioUrl, word, false)
+                    createPopUpDictionary(popUpView, word, false)
                 }
 
             }
@@ -498,7 +502,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
                 popUpView.findViewById<LinearLayout>(R.id.llMeaningHolder).addView(noMeaningView)
 
-                createPopUpDictionary(popUpView, audioUrl, word, false)
+                createPopUpDictionary(popUpView, word, false)
 
                 Log.i(TAG, t.toString())
             }
@@ -529,14 +533,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                 Log.i(TAG, "onResponse $response")
 
                 if (response.code() == 200 && !(response.body()!!.isNullOrEmpty()) && !(response.body()!![0].meanings.isNullOrEmpty())){
-                    val audioUrl : String?
                     val meanings = response.body()!![0].meanings
-                    if (response.body()!![0].phonetics.isNullOrEmpty()){
-                        audioUrl = null
-                    }
-                    else {
-                        audioUrl = response.body()!![0].phonetics[0].audio
-                    }
 
                     for (meaning in meanings) {
 
@@ -567,7 +564,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                         Log.i(TAG, "${meaningView.findViewById<TextView>(R.id.tvMeaning).text}" )
 
                     }
-                    createPopUpDictionary(popUpView, audioUrl, word, true)
+                    createPopUpDictionary(popUpView, word, true)
                 }
                 else {
                     Toast.makeText(this@QuizQuestionsActivity, "Please wait...", Toast.LENGTH_SHORT).show()
@@ -585,7 +582,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         })
     }
 
-    private fun createPopUpDictionary(popUpView : View?, audioUrl : String?, wordX: String, meaningYes : Boolean) {
+    private fun createPopUpDictionary(popUpView : View?, wordX: String, meaningYes : Boolean) {
         val dialog = android.app.AlertDialog.Builder(this)
             .setView(popUpView)
             .create()
@@ -655,34 +652,34 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
         }
 
-
-        if (audioUrl != null) {
-            popUpView.findViewById<ImageButton>(R.id.btnAudio)?.setOnClickListener {
-                Toast.makeText(this, "Fetching audio...", Toast.LENGTH_SHORT).show()
-
-                val mediaPlayer = MediaPlayer()
-
-                mediaPlayer.setAudioAttributes(
-                    AudioAttributes.Builder()
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                        .build()
-                )
-
-                try {
-                    mediaPlayer.setDataSource(audioUrl)
-                    // below line is use to prepare
-                    // and start our media player.
-                    mediaPlayer.prepare()
-                    mediaPlayer.start()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
+        popUpView.findViewById<ImageButton>(R.id.btnAudio)?.setOnClickListener {
+            if (meaningYes) {
+                speakWord(wordX.toString());
             }
+            else {
+                Toast.makeText(this, "Audio not available", Toast.LENGTH_SHORT).show()
+            }
+//                Toast.makeText(this, "Fetching audio...", Toast.LENGTH_SHORT).show()
+//
+//                val mediaPlayer = MediaPlayer()
+//
+//                mediaPlayer.setAudioAttributes(
+//                    AudioAttributes.Builder()
+//                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+//                        .build()
+//                )
+//
+//                try {
+//                    mediaPlayer.setDataSource(audioUrl)
+//                    // below line is use to prepare
+//                    // and start our media player.
+//                    mediaPlayer.prepare()
+//                    mediaPlayer.start()
+//                } catch (e: IOException) {
+//                    e.printStackTrace()
+//                }
         }
-        else {
-            popUpView.findViewById<ImageButton>(R.id.btnAudio)?.isClickable = false
-            popUpView.findViewById<ImageButton>(R.id.btnAudio)?.isEnabled = false
-        }
+
         dialog.show()
         binding.tvQuestion1.isClickable = true
         binding.tvQuestion2.isClickable = true
@@ -709,5 +706,36 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         val json = prefs.getString(key, null)
         val type: Type = object : TypeToken<ArrayList<String?>?>() {}.type
         return gson.fromJson(json, type)
+    }
+
+
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val result = mTTs!!.setLanguage(Locale.US)
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "Language specified not supported")
+            }
+            else {
+                Log.e("TTS", "Language supported")
+            }
+        }
+        else {
+            Log.e("TTS", "Initialization failed!")
+        }
+    }
+
+    private fun speakWord(word: String) {
+        mTTs!!.speak(word, TextToSpeech.QUEUE_FLUSH, null,"")
+    }
+
+    public override fun onDestroy() {
+        // Shutdown TTS
+        if (mTTs != null) {
+            mTTs!!.stop()
+            mTTs!!.shutdown()
+        }
+        super.onDestroy()
     }
 }

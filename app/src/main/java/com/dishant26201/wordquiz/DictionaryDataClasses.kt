@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 data class WordResults(
     @SerializedName("word") val word : String,
-    @SerializedName("phonetics") val phonetics : List<Pronounciation>,
+//    @SerializedName("phonetics") val phonetics : List<Pronounciation>,
     @SerializedName("meanings") val meanings : List<Meaning>
 )
 
-data class Pronounciation(
-    @SerializedName("audio") val audio : String
-)
+//data class Pronounciation(
+//    @SerializedName("audio") val audio : String
+//)
 
 data class Meaning(
     @SerializedName("partOfSpeech") val partOfSpeech : String,

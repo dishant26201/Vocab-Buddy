@@ -15,32 +15,39 @@
         <activity
             android:name=".DifficultWordsActivity"
             android:parentActivityName=".LaunchActivity"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".DictionaryActivity"
             android:parentActivityName=".LaunchActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ScoreCardActivity"
             android:parentActivityName=".LaunchActivity"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".LaunchActivity"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ResultActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarTheme" />
         <activity
             android:name=".QuizQuestionsActivity"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".LaunchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarTheme"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
