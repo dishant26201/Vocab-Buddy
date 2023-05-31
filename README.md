@@ -1,6 +1,6 @@
 # Vocab-Buddy
 
- Vocab Buddy is a simple, free, and ad-free word quiz app that is designed to help users exercise/improve their vocabulary for globally recognised English proficiency exams. Users can create custom vocabulary quizzes with exam specific words for 8 different testing systems and choose from 10 difficulty levels.
+ Vocab Buddy is a simple, free, and ad-free word quiz app that is designed to help users improve their vocabulary for globally recognised English proficiency exams. Users can create custom vocabulary quizzes with exam specific words for 8 different testing systems and choose from 10 difficulty levels.
 
  # Features
 
